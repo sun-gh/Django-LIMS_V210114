@@ -1,0 +1,166 @@
+{% extends "projects/base.html"  %}
+{% load static %}
+
+{% block title %} 项目详情页 {% endblock %}
+{% block css %}
+    <link href="{% static 'css/pro_detail.css'  %}" rel="stylesheet" />
+{% endblock  %}
+{% block content %}
+<div class="box box-info">
+    <div class="box-header with-border" id="detail_top" >
+        <h4 class="box-title">项目详细信息</h4>
+    </div>
+
+    <form class="form-horizontal" name="pro_detail" action="/projects/pro/{{ project_detail.id  }}/" method="post" enctype="multipart/form-data">
+      <div class="box-body">
+      <div class="row">
+        {% csrf_token  %}
+        <div class="col-md-6" id="detail_left">
+         <!--项目编号：-->
+        <div class="form-group">
+            {{ pro_form.experiment_num.label_tag  }}
+            <div class="col-md-6" id="experiment_num">{{ pro_form.experiment_num  }}</div>
+        </div>
+        <!--项目类型：-->
+        <div class="form-group">
+            {{ pro_form.pro_type.label_tag  }}
+            <div class="col-md-6" id="pro_type">{{ pro_form.pro_type  }}</div>
+        </div>
+        <!--样本类型：-->
+        <div class="form-group">
+            {{ pro_form.sam_type.label_tag  }}
+            <div class="col-md-6" id="sam_type">{{ pro_form.sam_type  }}</div>
+        </div>
+        <!--收费类型：-->
+        <div class="form-group">
+            {{ pro_form.cost_type.label_tag  }}
+            <div class="col-md-6" id="cost_type">{{ pro_form.cost_type  }}</div>
+        </div>
+        <!--样品数：-->
+        <div class="form-group">
+            {{ pro_form.sample_num.label_tag  }}
+            <div class="col-md-6" id="sample_num">{{ pro_form.sample_num  }}</div>
+        </div>
+        <!--终端：-->
+        <div class="form-group">
+            {{ pro_form.name_terminal.label_tag  }}
+            <div class="col-md-6" id="name_terminal">{{ pro_form.name_terminal  }}</div>
+        </div>
+        <!--单位：-->
+        <div class="form-group">
+            {{ pro_form.unit.label_tag  }}
+            <div class="col-md-6" id="unit">{{ pro_form.unit  }}</div>
+        </div>
+        <!--送样人：-->
+        <div class="form-group">
+            {{ pro_form.name.label_tag  }}
+            <div class="col-md-6" id="name">{{ pro_form.name  }}</div>
+        </div>
+        <!--附加收费：-->
+        <div class="form-group">
+            {{ pro_form.addition_cost.label_tag }}
+            <div class="col-md-6" id="addition_cost">{{ pro_form.addition_cost  }}</div>
+        </div>
+        <!--制备完成日期：-->
+        <div class="form-group">
+            {{ pro_form.date_preperation.label_tag }}
+            <div class="col-md-6" id="date_preperation">{{ pro_form.date_preperation  }}</div>
+        </div>
+        <!--负责人：-->
+        <div class="form-group">
+            {{ pro_form.res_person.label_tag  }}
+            <div class="col-md-6" id="res_person">{{ pro_form.res_person  }}</div>
+        </div>
+        </div>
+
+        <div class="col-md-6" id="detail_right">
+        <!--实验偏差：-->
+        <div class="form-group">
+            {{ pro_form.supply_info.label_tag  }}
+            <div class="col-md-6" id="supply_info">{{ pro_form.supply_info  }}</div>
+        </div>
+        <!--上机仪器：-->
+        <div class="form-group">
+           {{ pro_form.instrument.label_tag  }}
+            <div class="col-md-6" id="instrument">{{ pro_form.instrument  }}</div>
+        </div>
+        <!--上机日期：-->
+        <div class="form-group">
+            {{ pro_form.date_test.label_tag  }}
+            <div class="col-md-6" id="date_test">{{ pro_form.date_test  }}</div>
+        </div>
+        <!--搜库日期：-->
+        <div class="form-group">
+            {{ pro_form.date_searchlib.label_tag  }}
+            <div class="col-md-6" id="date_searchlib">{{ pro_form.date_searchlib  }}</div>
+        </div>
+        <!--数据发送：-->
+        <div class="form-group">
+            {{ pro_form.date_senddata.label_tag  }}
+            <div class="col-md-6" id="date_senddata">{{ pro_form.date_senddata  }}</div>
+        </div>
+        <!--项目金额：-->
+        <div class="form-group">
+            {{ pro_form.pro_cost.label_tag  }}
+            <div class="col-md-6" id="pro_cost">{{ pro_form.pro_cost  }}</div>
+        </div>
+        <!--项目经理：-->
+        <div class="form-group">
+            {{ pro_form.pro_manager.label_tag  }}
+            <div class="col-md-6" id="pro_manager">{{ pro_form.pro_manager  }}</div>
+        </div>
+        <!--结算方式：-->
+        <div class="form-group">
+            {{ pro_form.pay_mode.label_tag  }}
+            <div class="col-md-6" id="pay_mode">{{ pro_form.pay_mode  }}</div>
+        </div>
+        <!--项目截止日期：-->
+        <div class="form-group" id="deadline">
+            {{ pro_form.deadline_pro.label_tag  }}
+            <div class="col-md-6" id="deadline_pro">{{ pro_form.deadline_pro  }}</div>
+        </div>
+        <!--数据库文件：-->
+        <div class="form-group " >
+          <div class="col-md-offset-3">  <!--此处div为了控制数据库文件部分的位置-->
+            {{ pro_form.file.label_tag  }}
+            {{ pro_form.file  }}<!--<div class="col-md-6" id="file">{{ pro_form.file  }}</div>-->
+          </div>
+        </div>
+        </div>
+        </div>    <!-- /row -->
+      </div>  <!-- /.box-body -->
+        <div class="box-footer" align="center">
+          <!--<div class="col-md-12" id="detail_down" align="center">-->
+            <input class="btn btn-warning btn-sm" type="submit" value="保存修改"  />&nbsp;&nbsp;&nbsp;
+            <a class="btn btn-success btn-sm" href="{% url 'projects:pro_list' %}" role="button"> 返回 </a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="btn btn-danger btn-sm" href="/projects/del_pro/{{ project_detail.id }}/" role="button" onclick="javascript:return del()" >删除</a>
+        </div>  <!-- /.box-footer -->
+    </form>
+    </div>
+
+
+{% endblock content %}
+
+{% block script %}
+    <script type="text/javascript">
+        function del(){
+            var msg="确定要删除吗？";
+            if (confirm(msg)==true){
+                return true;
+             } else {
+                return false;
+                }
+            };
+
+        // 给label加上class属性;input加上class;
+        $("form label").addClass("col-md-5 control-label");
+        $("div.col-md-6 input").addClass("form-control");
+
+        $("[for='id_file']").removeAttr("class");
+        $("#file-clear_id").removeAttr("class");
+        $("[for='file-clear_id']").removeAttr("class");
+        $("#id_file").removeAttr("class");
+
+        $("div.col-md-6 select").addClass("form-control");
+    </script>
+{% endblock %}

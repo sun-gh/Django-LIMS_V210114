@@ -1,0 +1,160 @@
+{% extends "projects/base.html" %}
+{% load static %}
+
+{% block title %} 开票申请记录 {% endblock %}
+
+{% block css %}
+  <!--<link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">-->
+  <link rel="stylesheet" href="{% static 'datatables/DataTables-1.10.22/css/jquery.dataTables.min.css' %}">
+  <link rel="stylesheet" href="{% static 'datatables/Buttons-1.6.5/css/buttons.dataTables.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/apply_list.css'  %}"  />
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+<div class="col-xs-12">
+
+<div class="box">
+
+  <div class="box-header" >
+        <h4 class="box-title">开票申请记录表</h4>
+  </div>
+
+  <div class="box-body" >
+
+      <table id="mytab" class="table table-bordered table-condensed table-striped">
+          <thead>
+              <tr>
+                  <th class="order_num" >序号</th>
+                  <th class="basic_info" >合同编号</th>
+                  <th class="basic_info" >开票单位</th>
+                  <th class="basic_info" >新单位名称</th>
+                  <th class="basic_info" >发票金额</th>
+                  <th class="basic_info" >开票张数</th>
+                  <th class="basic_info" >开票要求</th>
+                  <th class="basic_info" >合同文件</th>
+                  <th class="basic_info" >项目清单</th>
+                  <th class="basic_info" >检测报告</th>
+                  <th class="basic_info" >联系人信息</th>
+                  <th class="pay_info" >开票类型</th>
+                  <th class="pay_info" >原发票号</th>
+                  <th class="pay_info" >备注</th>
+                  <th class="pay_info" >项目编号</th>
+                  <th class="pay_info" >申请人</th>
+                  <th class="pay_info" >申请日期</th>
+                  <th class="pay_info" >状态</th>
+
+              </tr>
+          </thead>
+          <tbody>
+                {% for apply in apply_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>  <!--forloop.counter为当前循环的次数-->
+                        <!--/projects/apply/{{ apply.id }}-->
+                        <td> <a href="/projects/apply/{{ apply.id }}">{{ apply.contract_num }}</a> </td>
+                        <td>{{ apply.unit_name }}</td>
+                        <td>{{ apply.new_unit }}</td>
+                        <td>{{ apply.cost_invoice }}</td>
+                        <td>{{ apply.sheet_num }}</td>
+                        <td>
+                            {% for require in apply.require_invoice.all  %}
+                            <span>{{ require.require_content }}</span>
+                            {% endfor  %}
+                        </td>
+                        <!--<td >
+                            {% for material in apply.reimburse_material.all  %}
+                            <label>{{ material.material_type }}</label>
+                            {% endfor  %}
+                        </td>-->
+                        <td><a href="/media/{{ apply.contract_file.name }}"> {{ apply.contract_file.name }}</a> </td>
+                        <td><a href="/media/{{ apply.list_file.name }}">{{ apply.list_file.name }}</a></td>
+                        <td><a href="/media/{{ apply.report_file.name }}">{{ apply.report_file.name }}</a></td>
+                        <td>{{ apply.address_linkman }}</td>
+                        <td>{{ apply.type_apply }}</td>
+                        <td>
+                            {% for original_inv in apply.red_invoice.all  %}
+                            <span>{{ original_inv.red_invoice }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>{{ apply.note }}</td>
+                        <td>
+                            {% for pro in apply.pro_num.all  %}
+                                <span>{{ pro.experiment_num }}</span>
+                            {% endfor  %}
+                        </td>
+                        <td>{{ apply.person_apply }}</td>
+                        <td>{{ apply.c_time|date:"Y-m-d" }}</td>
+                        <td>{{ apply.get_status_display }}</td>
+                        <!--<td>{{ apply.status }}</td>-->
+
+                    </tr>
+                {% endfor %}
+          </tbody>
+      </table>
+
+  </div> <!--/.box-body-->
+</div>  <!--/.box-->
+</div>  <!--/.col-->
+</div>  <!--/.row-->
+
+
+{% endblock content %}
+
+{% block script %}
+
+<!--新加入的datatables插件-->
+<script type="text/javascript" src="{% static 'datatables/DataTables-1.10.22/js/jquery.dataTables.min.js' %}"></script>
+<!--<script  src="{% static 'adminlte-2.4.10/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>-->
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/dataTables.buttons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/JSZip-2.5.0/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.flash.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.html5.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.print.min.js' %}"></script>
+
+<script>
+$(document).ready( function() {
+        $('#mytab').DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "info": true,
+          "ordering":true,
+          //"scrollX": true,
+          "autoWidth":false,
+          "lengthMenu":[[5,10,25,50,-1],[5,10,25,50,"all"]],
+
+          dom:'lBfrtip',
+          "buttons": [
+            {
+                extend:'excel',
+                text:'Export',
+            }
+        ],
+        //定义某几列不参与排序
+        "columnDefs":[
+            {"orderable":false, "targets":[3,4,5,6,7,8,9,10,11,13,14]},
+            {"width":"4%", "targets":0 },
+            {"width":"7%", "targets":2 },
+            {"width":"7%", "targets":3 },
+            {"width":"6%", "targets":5 },
+            {"width":"7%", "targets":10 },
+            {"width":"7%", "targets":12 },
+            {
+            "targets": [2,10,11,12],
+            //"data": 'pro_type',
+            "render": function ( data, type, full, meta ) {
+                return data.length > 4 ?'<span title="'+data+'">'+data+'</span>':data;
+            },
+            },
+
+        ]
+
+        });
+        $('#mytab').wrapAll("<div style='overflow-x:auto; width:1000px'>");
+
+      });
+
+</script>
+
+{% endblock %}

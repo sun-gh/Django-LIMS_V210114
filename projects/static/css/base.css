@@ -1,0 +1,40 @@
+body {
+    background-image:url('../image/bg_base.png');
+}
+
+#heading {
+    /* width:100%;*/
+    /* height:55px;*/
+    background-color:#81C784;
+}
+#content_side {
+    /* width:11%;*/
+    height:650px;
+    background-color:#C5E9F3;
+    /* float:left;*/
+}
+#side_list {
+    padding-left:40px;
+    line-height:200%;
+}
+#content_body {
+    /*width:89%;
+    height:673px;*/
+    /*padding-left:-15px;
+    padding-right:-15px;*/
+
+}
+#floor {
+    /* clear:both;
+    height:40px;*/
+    background-color:#BDBDBD;
+    text-align:center;
+}
+
+
+
+#head_right {
+
+  text-align:right;
+}
+

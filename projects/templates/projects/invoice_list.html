@@ -1,0 +1,141 @@
+{% extends "projects/base.html" %}
+{% load static %}
+
+{% block title %} 开票回款总表 {% endblock %}
+
+{% block css %}
+  <!--<link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">-->
+  <link rel="stylesheet" href="{% static 'datatables/DataTables-1.10.22/css/jquery.dataTables.min.css' %}">
+  <link rel="stylesheet" href="{% static 'datatables/Buttons-1.6.5/css/buttons.dataTables.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/invoice_payment.css'  %}"  />
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+<div class="col-xs-12">
+
+<div class="box">
+
+  <div class="box-header" >
+        <h4 class="box-title">已开发票总表</h4>
+  </div>
+
+  <div class="box-body" >
+
+      <table id="mytab" class="table table-bordered table-condensed table-striped">
+          <thead>
+              <tr>
+                  <th  class="order_num" >序号</th>
+                  <th  class="basic_info" >合同编号</th>
+                  <th  class="basic_info" >发票号</th>
+                  <th  class="basic_info" >开票单位</th>
+                  <th  class="date_apply" >开票日期</th>
+                  <th  class="date_apply" >申请人</th>
+                  <th  class="basic_info" >发票金额</th>
+                  <th  class="basic_info" >寄送日期</th>
+                  <th  class="basic_info" >快递单号</th>
+                  <th  class="date_callback" >合同回收日期</th>
+                  <th  class="basic_info" >作废/冲红</th>
+                  <th  class="pay_info" >回款日期</th>
+                  <th  class="pro_num" >项目编号</th>
+                  <th  class="pay_info" >是否结清</th>
+
+              </tr>
+          </thead>
+          <tbody>
+                {% for invoice in invoice_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ invoice.contract_num }} </td>
+                        <td><a href="/projects/invoice/{{ invoice.id }}">{{ invoice.num_invoice }}</a></td>
+                        <td>{{ invoice.unit_invoice }}</td>
+                        <td>{{ invoice.date_invoice }}</td>
+                        <td>{{ invoice.person_apply }}</td>
+                        <td>{{ invoice.cost_invoice }}</td>
+                        <td>{{ invoice.date_post }}</td>
+                        <td >{{ invoice.num_express }}</td>
+                        <td>{{ invoice.date_callback }}</td>
+                        <td>
+
+                            {% for i,rec in record_red.items  %}
+                              {% if i == forloop.parentloop.counter0 %} <!--此处要用上级循环的序号-->
+                                  {{ rec }}
+                              {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{ invoice.date_payment }}</td>
+                        <td>
+                            {% for pro in invoice.pro_num.all  %}
+                                <span>{{ pro.experiment_num }}</span>
+                            {% endfor  %}
+                        </td>
+                        <td>{{ invoice.pay_check }}</td>
+
+                    </tr>
+                {% endfor %}
+          </tbody>
+      </table>
+
+  </div> <!--/.box-body-->
+</div>  <!--/.box-->
+</div>  <!--/.col-->
+</div>  <!--/.row-->
+
+
+{% endblock content %}
+
+{% block script %}
+
+<!--新加入的datatables插件-->
+<script type="text/javascript" src="{% static 'datatables/DataTables-1.10.22/js/jquery.dataTables.min.js' %}"></script>
+<!--<script  src="{% static 'adminlte-2.4.10/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>-->
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/dataTables.buttons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/JSZip-2.5.0/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.flash.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.html5.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.print.min.js' %}"></script>
+
+<script>
+$(document).ready( function() {
+        $('#mytab').DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "info": true,
+          "ordering":true,
+          //"scrollX": true,
+          "autoWidth":false,
+          "lengthMenu":[[5,10,25,50,-1],[5,10,25,50,"all"]],
+
+          dom:'lBfrtip',
+          "buttons": [
+            {
+                extend:'excel',
+                text:'Export',
+            }
+        ],
+        //定义某几列不参与排序
+        "columnDefs":[
+            {"orderable":false, "targets":[1,2,5,6,7,8,11]},
+            {"width":"6%", "targets":0 },
+            {"width":"6%", "targets":5 },
+            {"width":"9%", "targets":9 },
+            {
+            "targets": [1,3],
+            //"data": 'pro_type',
+            "render": function ( data, type, full, meta ) {
+                return data.length > 4 ?'<span title="'+data+'">'+data+'</span>':data;
+            },
+            },
+
+        ]
+
+        });
+        $('#mytab').wrapAll("<div style='overflow-x:auto; width:1000px'>");
+
+      });
+
+</script>
+
+{% endblock %}

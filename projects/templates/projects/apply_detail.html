@@ -1,0 +1,283 @@
+{% extends "projects/base.html"  %}
+{% load static %}
+
+{% block title %} 开票申请详情页 {% endblock %}
+{% block css %}
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/select2/dist/css/select2.min.css' %}" />
+    <link href="{% static 'css/apply_detail.css'  %}" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+<div class="box box-info" id="inv_detail">
+    <div class="box-header with-border" >
+        <h4 class="box-title">开票申请详情</h4>
+    </div>
+
+    <form class="form-horizontal" name="inv_detail" action="{% url 'projects:apply_detail' aly_detail.id %}" method="post">
+      <div class="box-body">
+      <div class="row">
+        {% csrf_token  %}
+        <div class="col-md-6 " id="inv_left">
+        <!--合同编号：-->
+        <div class="form-group">
+             {{ apply_form.contract_num.label_tag  }}
+            <div class="col-md-6" id="contract_num">
+                {{ apply_form.contract_num  }}
+            </div>
+        </div>
+
+        <!--开票单位：-->
+        <div class="form-group">
+            {{ apply_form.unit_name.label_tag  }}
+            <div class="col-md-6" id="unit_name">
+                {{ apply_form.unit_name  }}
+            </div>
+        </div>
+
+        <!--新单位名称：-->
+        <div class="form-group">
+            {{ apply_form.new_unit.label_tag  }}
+            <div class="col-md-6" id="new_unit">
+                {{ apply_form.new_unit  }}
+            </div>
+        </div>
+
+        <!--税号：-->
+        <div class="form-group">
+            {{ apply_form.duty_paragraph.label_tag  }}
+            <div class="col-md-6" id="duty_paragraph">
+                {{ apply_form.duty_paragraph  }}
+            </div>
+        </div>
+
+        <!--开户行：-->
+        <div class="form-group">
+            {{ apply_form.bank.label_tag  }}
+            <div class="col-md-6" id="bank">
+                {{ apply_form.bank  }}
+            </div>
+        </div>
+
+        <!--银行账号：-->
+        <div class="form-group">
+            {{ apply_form.account.label_tag  }}
+            <div class="col-md-6" id="account">
+                {{ apply_form.account  }}
+            </div>
+        </div>
+
+        <!--单位地址：-->
+        <div class="form-group">
+            {{ apply_form.address.label_tag  }}
+            <div class="col-md-6" id="address">
+                {{ apply_form.address  }}
+            </div>
+        </div>
+
+        <!--联系电话：-->
+        <div class="form-group">
+            {{ apply_form.phone.label_tag  }}
+            <div class="col-md-6" id="phone">
+                {{ apply_form.phone }}
+            </div>
+        </div>
+
+        <!--发票金额：-->
+        <div class="form-group">
+            {{ apply_form.cost_invoice.label_tag  }}
+            <div class="col-md-6" id="cost_invoice">
+                {{ apply_form.cost_invoice  }}
+            </div>
+        </div>
+
+        <!--开票张数：-->
+        <div class="form-group">
+            {{ apply_form.sheet_num.label_tag  }}
+            <div class="col-md-6" id="sheet_num">
+                {{ apply_form.sheet_num  }}
+            </div>
+        </div>
+
+        <!--开票要求：-->
+        <div class="form-group">
+            {{ apply_form.require_invoice.label_tag  }}
+            <div class="col-md-6" id="require_invoice">
+                {{ apply_form.require_invoice  }}
+            </div>
+        </div>
+        </div>
+        <div class="col-md-6 " id="inv_right">
+        <!--合同文件：-->
+        <div class="form-group">
+
+            <div class="col-md-offset-3" >
+                {{ apply_form.contract_file.label_tag  }}
+                {{ apply_form.contract_file  }}
+            </div>
+        </div>
+
+        <!--项目清单：-->
+        <div class="form-group">
+
+            <div class="col-md-offset-3" >
+                {{ apply_form.list_file.label_tag  }}
+                {{ apply_form.list_file  }}
+            </div>
+        </div>
+
+        <!--检测报告：-->
+        <div class="form-group">
+
+            <div class="col-md-offset-3" >
+                {{ apply_form.report_file.label_tag  }}
+                {{ apply_form.report_file  }}
+            </div>
+        </div>
+
+        <!--联系人地址电话：-->
+        <div class="form-group">
+            {{ apply_form.address_linkman.label_tag  }}
+            <div class="col-md-6" id="address_linkman">
+                {{ apply_form.address_linkman  }}
+            </div>
+        </div>
+
+        <!--开票类型：-->
+        <div class="form-group">
+            {{ apply_form.type_apply.label_tag  }}
+            <div class="col-md-6" id="type_apply">
+                {{ apply_form.type_apply  }}
+            </div>
+        </div>
+
+        <!--冲红发票号：-->
+        <div class="form-group">
+            {{ apply_form.red_invoice.label_tag  }}
+            <div class="col-md-6" id="red_invoice">
+                {{ apply_form.red_invoice  }}
+            </div>
+        </div>
+
+        <!--备注：-->
+        <div class="form-group">
+            {{ apply_form.note.label_tag  }}
+            <div class="col-md-6" id="note">
+                {{ apply_form.note  }}
+            </div>
+        </div>
+
+        <!--项目号：-->
+        <div class="form-group">
+            {{ apply_form.pro_num.label_tag  }}
+            <div class="col-md-6" id="pro_num">
+                {{ apply_form.pro_num  }}
+            </div>
+        </div>
+
+        <!--申请人：-->
+        <div class="form-group">
+            {{ apply_form.person_apply.label_tag  }}
+            <div class="col-md-6" id="person_apply" >
+
+                {{ apply_form.person_apply }}
+            </div>
+        </div>
+
+        <!--申请日期：-->
+        <div class="form-group">
+            <!--此处直接用模型实例apply_detail-->
+            <label for="c_time">申请日期:</label>
+            <div class="col-md-6"  >
+                <span class="form-control" id="c_time">{{ aly_detail.c_time|date:"Y-m-d" }}</span>
+            </div>
+        </div>
+
+        <!--状态：-->
+        <div class="form-group">
+            {{ apply_form.status.label_tag  }}
+            <div class="col-md-6" id="status">
+                {{ apply_form.status  }}
+            </div>
+        </div>
+        </div>  <!-- /inv_right -->
+        </div>  <!-- /row -->
+        </div>  <!-- /.box-body -->
+        <div class="box-footer" id="detail_down" >
+          <!--<div class="col-md-12 " align="center">-->
+          <div class="col-md-4 col-md-offset-4" >
+            <input class="btn btn-warning btn-sm" type="submit" value="保存修改"  />&nbsp;&nbsp;
+            <a class="btn btn-success btn-sm" href="{% url 'projects:apply_list' %}" role="button"> 返回 </a>&nbsp;&nbsp;
+            <a class="btn btn-danger btn-sm" href="/projects/del_apply/{{ aly_detail.id }}/" role="button"
+               onclick="javascript:return del()" >删除</a> &nbsp;
+          </div>
+          <div class="col-md-4" align="center">
+            <a class="btn btn-info btn-sm " name="approve_aly" href="{% url 'projects:approve_apply' aly_detail.id %}"
+               role="button"> 同意开票 </a>
+          </div>
+        </div>  <!-- /.box-footer -->
+    </form>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+    <!-- Select2 -->
+    <script src="{% static 'adminlte-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script type="text/javascript">
+      function del(){
+          var msg="确定要删除吗？";
+          if (confirm(msg)==true){
+              return true;
+           } else {
+              return false;
+              }
+            };
+      // 根据status内容决定是否禁用“同意开票”；
+      var status_tag=document.getElementsByName("status");
+      // console.log(status_tag[0].selectedIndex);
+      var index_sel = status_tag[0].selectedIndex;
+      if (status_tag[0].options[index_sel].value == "passed"){
+
+        var att=document.createAttribute("disabled");
+        att.value="disabled";
+        document.getElementsByName("approve_aly")[0].setAttributeNode(att);
+        };
+
+      $(document).ready(function(){
+        // 给label加上class属性;input加上class;
+        $("form label").addClass("col-md-5 control-label");
+        $("div.col-md-6 input").addClass("form-control");
+        //调整合同文件的位置
+        $("[for='id_contract_file']").removeAttr("class");
+        $("#contract_file-clear_id").removeAttr("class");
+        $("[for='contract_file-clear_id']").removeAttr("class");
+        $("#id_contract_file").removeAttr("class");
+        //调整项目清单文件的位置
+        $("[for='id_list_file']").removeAttr("class");
+        $("#list_file-clear_id").removeAttr("class");
+        $("[for='list_file-clear_id']").removeAttr("class");
+        $("#id_list_file").removeAttr("class");
+        //调整检测报告文件的位置
+        $("[for='id_report_file']").removeAttr("class");
+        $("#report_file-clear_id").removeAttr("class");
+        $("[for='report_file-clear_id']").removeAttr("class");
+        $("#id_report_file").removeAttr("class");
+
+        $("div.col-md-6 select").addClass("form-control");
+        // 给select添加样式,<!-- Select2 -->
+        $("#id_unit_name ").addClass("select2");
+        $("#id_unit_name ").attr("style","width:100%;");
+        // 给mul-select添加样式,<!-- Select2 -->
+        $("#id_pro_num ").addClass("select2");
+        $("#id_pro_num ").attr("style","width:100%;");
+        // 给原发票号添加Select2
+        $("#id_red_invoice ").addClass("form-control select2");
+        $("#id_red_invoice ").attr("style","width:100%;");
+
+        //Initialize Select2 Elements
+        $('.select2').select2();
+
+        });
+    </script>
+{% endblock  %}

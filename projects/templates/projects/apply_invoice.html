@@ -1,0 +1,255 @@
+{% extends "projects/base.html"  %}
+{% load static %}
+
+{% block title %} 开票申请 {% endblock %}
+{% block css %}
+
+     <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/select2/dist/css/select2.min.css' %}" />
+    <link href="{% static 'css/apply_inv.css'  %}" rel="stylesheet" />
+{% endblock  %}
+{% block content %}
+<div class=" box box-info ">
+    <div  class="box-header with-border " >
+        <h4 class="box-title">开票申请</h4>
+    </div>
+
+    <form class="form-horizontal" name="apply_invoice" action="/projects/applyinvoice/" method="post" enctype="multipart/form-data">
+      <div class="box-body">
+        <div class="row">
+        {% csrf_token  %}
+        <div class="col-md-6 " id="inv_left">
+        <!--合同编号：-->
+        <div class="form-group">
+             {{ applyinv_form.contract_num.label_tag  }}
+            <div class="col-md-6" id="contract_num">
+                {{ applyinv_form.contract_num  }}
+            </div>
+        </div>
+
+        <!--开票单位：-->
+        <div class="form-group">
+            {{ applyinv_form.unit_name.label_tag  }}
+            <div class="col-md-6" id="unit_name">
+              {{ applyinv_form.unit_name  }}
+            </div>
+        </div>
+
+        <!--新单位名称：-->
+        <div class="form-group">
+            {{ applyinv_form.new_unit.label_tag  }}
+            <div class="col-md-6" id="new_unit">
+                {{ applyinv_form.new_unit  }}
+            </div>
+        </div>
+
+        <!--税号：-->
+        <div class="form-group">
+            {{ applyinv_form.duty_paragraph.label_tag  }}
+            <div class="col-md-6" id="duty_paragraph">
+                {{ applyinv_form.duty_paragraph  }}
+            </div>
+        </div>
+
+        <!--开户行：-->
+        <div class="form-group">
+            {{ applyinv_form.bank.label_tag  }}
+            <div class="col-md-6" id="bank">
+                {{ applyinv_form.bank  }}
+            </div>
+        </div>
+
+        <!--银行账号：-->
+        <div class="form-group">
+            {{ applyinv_form.account.label_tag  }}
+            <div class="col-md-6" id="account">
+                {{ applyinv_form.account  }}
+            </div>
+        </div>
+
+        <!--单位地址：-->
+        <div class="form-group">
+            {{ applyinv_form.address.label_tag  }}
+            <div class="col-md-6" id="address">
+                {{ applyinv_form.address  }}
+            </div>
+        </div>
+
+        <!--联系电话：-->
+        <div class="form-group">
+            {{ applyinv_form.phone.label_tag  }}
+            <div class="col-md-6" id="phone">
+                {{ applyinv_form.phone }}
+            </div>
+        </div>
+
+        <!--发票金额：-->
+        <div class="form-group">
+            {{ applyinv_form.cost_invoice.label_tag  }}
+            <div class="col-md-6" id="cost_invoice">
+                {{ applyinv_form.cost_invoice  }}
+            </div>
+        </div>
+
+        <!--开票张数：-->
+        <div class="form-group">
+            {{ applyinv_form.sheet_num.label_tag  }}
+            <div class="col-md-6" id="sheet_num">
+                {{ applyinv_form.sheet_num  }}
+            </div>
+        </div>
+
+        <!--开票要求：-->
+        <div class="form-group">
+            {{ applyinv_form.require_invoice.label_tag  }}
+            <div class="col-md-6" id="require_invoice">
+                {{ applyinv_form.require_invoice  }}
+            </div>
+        </div>
+        </div>
+        <div class="col-md-6 " id="inv_right">
+        <!--合同文件：-->
+        <div class="form-group">
+            {{ applyinv_form.contract_file.label_tag  }}
+            <div class="col-md-6 " id="contract_file">
+                {{ applyinv_form.contract_file  }}
+            </div>
+        </div>
+
+        <!--项目清单：-->
+        <div class="form-group">
+            {{ applyinv_form.list_file.label_tag  }}
+            <div class="col-md-6 " id="list_file">
+                {{ applyinv_form.list_file  }}
+            </div>
+        </div>
+
+        <!--检测报告：-->
+        <div class="form-group">
+            {{ applyinv_form.report_file.label_tag  }}
+            <div class="col-md-6 " id="report_file">
+                {{ applyinv_form.report_file  }}
+            </div>
+        </div>
+
+        <!--联系人地址电话：-->
+        <div class="form-group">
+            {{ applyinv_form.address_linkman.label_tag  }}
+            <div class="col-md-6" id="address_linkman">
+                {{ applyinv_form.address_linkman  }}
+            </div>
+        </div>
+
+        <!--开票类型：-->
+        <div class="form-group">
+            {{ applyinv_form.type_apply.label_tag  }}
+            <div class="col-md-6" id="type_apply">
+                {{ applyinv_form.type_apply  }}
+            </div>
+        </div>
+
+        <!--冲红发票号：-->
+        <div class="form-group">
+            {{ applyinv_form.red_invoice.label_tag  }}
+            <div class="col-md-6" id="red_invoice">
+                {{ applyinv_form.red_invoice  }}
+            </div>
+        </div>
+
+        <!--备注：-->
+        <div class="form-group">
+            {{ applyinv_form.note.label_tag  }}
+            <div class="col-md-6" id="note">
+                {{ applyinv_form.note  }}
+            </div>
+        </div>
+
+        <!--项目号：-->
+        <div class="form-group">
+            {{ applyinv_form.pro_num.label_tag  }}
+            <div class="col-md-6" id="pro_num">
+                {{ applyinv_form.pro_num  }}
+            </div>
+        </div>
+
+        <!--申请人：-->
+        <div class="form-group">
+            {{ applyinv_form.person_apply.label_tag  }}
+            <div class="col-md-6" id="person_apply">
+
+                <input  type="text" name="person_apply" value="{{ request.session.user_name }}" id="id_person_apply" />
+            </div>
+        </div>
+
+        <!--状态：-->
+        <div class="form-group">
+            {{ applyinv_form.status.label_tag  }}
+            <div class="col-md-6" id="status">
+                {{ applyinv_form.status  }}
+            </div>
+        </div>
+        </div>   <!-- /inv_right -->
+        </div>    <!-- /row -->
+      </div>  <!-- /.box-body -->
+        <div class="box-footer" align="center">
+          <!--<div class="col-md-12" align="center">-->
+            <input class="btn btn-warning btn-sm" type="submit" value="提交"  />&nbsp;&nbsp;
+            <input class="btn btn-danger btn-sm" type="reset" value="重置"  />
+        </div>  <!-- /.box-footer -->
+    </form>
+
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+    <!-- Select2 -->
+    <script src="{% static 'adminlte-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script type="text/javascript">
+      // 为单位的select标签插入onchange属性
+        //var tag1 = document.getElementsByName("unit_name");
+        // console.log(tag1[0].nodeName);
+        //var att = document.createAttribute("OnChange");
+        //att.value = "disabledNewUnit()";
+        //tag1[0].setAttributeNode(att);
+        // 如果选择了单位名称，新单位信息就被禁用；
+       // function disabledNewUnit(){
+         // var tag2=document.getElementsByName("unit_name");
+        //  console.log(tag2[0].selectedIndex);
+        //  var index_sel = tag2[0].selectedIndex;
+       //   if(index_sel ){
+        //  var att=document.createAttribute("disabled");
+        //  att.value="disabled";
+        //  document.getElementsByName("new_unit")[0].setAttributeNode(att);
+
+       //   };
+       // };
+
+
+      $(document).ready(function(){
+        // 给label加上class属性;input加上class;
+        $("form label").addClass("col-md-5 control-label");
+        $("div.col-md-6 input").addClass("form-control");
+        $("div.col-md-6 select").addClass("form-control");
+
+        // 给select添加样式,<!-- Select2 -->
+        $("#id_unit_name ").addClass("form-control select2");
+        $("#id_unit_name ").attr("style","width:100%;");
+        // $("[for='id_unit_name' ]").removeClass();
+        // 给mul-select添加样式,<!-- Select2 -->
+        $("#id_pro_num ").addClass("form-control select2");
+        $("#id_pro_num ").attr("style","width:100%;");
+        // 给原发票号添加Select2
+        $("#id_red_invoice ").addClass("form-control select2");
+        $("#id_red_invoice ").attr("style","width:100%;");
+
+        //Initialize Select2 Elements
+        $('.select2').select2();
+
+      });
+
+
+    </script>
+{% endblock  %}
+

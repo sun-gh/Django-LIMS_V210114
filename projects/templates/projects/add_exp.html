@@ -1,0 +1,282 @@
+{% extends "projects/base.html"  %}
+{% load static %}
+
+{% block css %}
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/select2/dist/css/select2.min.css' %}" />
+    <link href="{% static 'css/add_exp.css'  %}" rel="stylesheet" />
+{% endblock  %}
+{% block content %}
+  <div class="box box-info">
+    <div class="box-header with-border " >
+        <h4 class="box-title">添加项目</h4>
+    </div>
+
+    <form class="form-horizontal" name="add_experiment" action="/projects/add_exp/" method="post" enctype="multipart/form-data">
+      <div class="box-body">
+      <div class="row">
+        {% csrf_token  %}
+          <div class="col-md-6" id="exp_left">
+          <!--项目编号：-->
+          <div class="form-group">
+             {{ addexp_form.experiment_num.label_tag  }}
+            <div class="col-md-6" id="experiment_num">{{ addexp_form.experiment_num  }}</div>
+          </div>
+          <!--项目类型：-->
+          <div class="form-group">
+            {{ addexp_form.pro_type.label_tag  }}
+            <div class="col-md-6" id="pro_type">{{ addexp_form.pro_type  }}</div>
+          </div>
+          <!--样本类型：-->
+          <div class="form-group">
+            {{ addexp_form.sam_type.label_tag  }}
+            <div class="col-md-6" id="sam_type">{{ addexp_form.sam_type  }}</div>
+          </div>
+          <!--收费类型：-->
+          <div class="form-group">
+            {{ addexp_form.cost_type.label_tag  }}
+            <div class="col-md-6" id="cost_type">{{ addexp_form.cost_type  }}</div>
+          </div>
+          <!--样品数：-->
+          <div class="form-group">
+            {{ addexp_form.sample_num.label_tag  }}
+            <div class="col-md-6" id="sample_num">{{ addexp_form.sample_num  }}</div>
+          </div>
+          <!--终端：-->
+          <div class="form-group">
+            {{ addexp_form.name_terminal.label_tag  }}
+            <div class="col-md-6" id="name_terminal">{{ addexp_form.name_terminal  }}</div>
+          </div>
+          <!--单位：-->
+          <div class="form-group">
+            {{ addexp_form.unit.label_tag  }}
+            <div class="col-md-6" id="unit">{{ addexp_form.unit  }}</div>
+          </div>
+          <!--送样人：-->
+          <div class="form-group">
+            {{ addexp_form.name.label_tag  }}
+            <div class="col-md-6" id="name">{{ addexp_form.name  }}</div>
+          </div>
+          <!--附加收费：-->
+          <div class="form-group">
+            {{ addexp_form.addition_cost.label_tag  }}
+            <div class="col-md-6" id="addition_cost">{{ addexp_form.addition_cost  }}</div>
+          </div>
+          <!--制备完成日期：-->
+          <div class="form-group">
+            {{ addexp_form.date_preperation.label_tag  }}
+            <div class="col-md-6" id="date_preperation">{{ addexp_form.date_preperation  }}</div>
+          </div>
+          <!--负责人：-->
+          <div class="form-group">
+            {{ addexp_form.res_person.label_tag  }}
+            <div class="col-md-6" id="res_person">{{ addexp_form.res_person  }}</div>
+          </div>
+          </div>  <!-- /exp_left -->
+
+          <div class="col-md-6 " id="exp_right">
+          <!--实验偏差：-->
+          <div class="form-group">
+            {{ addexp_form.supply_info.label_tag  }}
+            <div class="col-md-6" id="supply_info">{{ addexp_form.supply_info  }}</div>
+          </div>
+          <!--上机仪器：-->
+          <div class="form-group">
+            {{ addexp_form.instrument.label_tag  }}
+            <div class="col-md-6" id="instrument">{{ addexp_form.instrument  }}</div>
+          </div>
+          <!--上机日期：-->
+          <div class="form-group">
+            {{ addexp_form.date_test.label_tag  }}
+            <div class="col-md-6" id="date_test">{{ addexp_form.date_test  }}</div>
+          </div>
+          <!--搜库日期：-->
+          <div class="form-group">
+            {{ addexp_form.date_searchlib.label_tag  }}
+            <div class="col-md-6" id="date_searchlib">{{ addexp_form.date_searchlib  }}</div>
+          </div>
+          <!--数据发送：-->
+          <div class="form-group">
+            {{ addexp_form.date_senddata.label_tag  }}
+            <div class="col-md-6" id="date_senddata">{{ addexp_form.date_senddata  }}</div>
+          </div>
+          <!--项目金额：-->
+          <div class="form-group">
+            {{ addexp_form.pro_cost.label_tag  }}
+            <div class="col-md-6" id="pro_cost">{{ addexp_form.pro_cost  }}</div>
+          </div>
+          <!--项目经理：-->
+          <div class="form-group">
+            {{ addexp_form.pro_manager.label_tag  }}
+            <div class="col-md-6" id="pro_manager">{{ addexp_form.pro_manager  }}</div>
+          </div>
+          <!--结算方式：-->
+          <div class="form-group">
+            {{ addexp_form.pay_mode.label_tag  }}
+            <div class="col-md-6" id="pay_mode">{{ addexp_form.pay_mode  }}</div>
+          </div>
+          <!--项目截止日期：-->
+          <div class="form-group" id="deadline">
+            {{ addexp_form.deadline_pro.label_tag  }}
+            <div class="col-md-6" id="deadline_pro">{{ addexp_form.deadline_pro  }}</div>
+          </div>
+          <!--数据库文件：-->
+          <div class="form-group" id="database">
+            {{ addexp_form.file.label_tag  }}
+            <div class="col-md-6" id="file">{{ addexp_form.file  }}</div>
+          </div>
+        </div>   <!-- /exp_right -->
+        </div>    <!-- /row -->
+        </div>  <!-- /.box-body -->
+        <div class="box-footer" align="center">
+          <!--<div class="col-md-12" id="addpro_down">-->
+            <input class="btn btn-warning btn-sm" type="submit" value="提交"  />&nbsp;&nbsp;
+            <input class="btn btn-danger btn-sm" type="reset" value="重置"  />
+
+        </div>
+    </form>
+    </div>
+
+
+{% endblock content %}
+
+{% block script %}
+
+    <!-- Select2 -->
+    <script src="{% static 'adminlte-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script type="text/javascript">
+
+        // 给label加上class属性;input加上class;
+        $("form label").addClass("col-md-5 control-label");
+        $("div.col-md-6 input").addClass("form-control");
+        // $("#id_file").removeAttr("class");
+        $("div.col-md-6 select").addClass("form-control");
+        // 给select添加样式,<!-- Select2 -->
+        $("#id_unit").addClass("form-control select2");
+        $("#id_unit").attr("style","width:100%;");
+        //Initialize Select2 Elements
+        $('.select2').select2();
+
+        // 为项目类型的select标签插入onchange属性
+        var tag1 = document.getElementsByName("pro_type");
+        // console.log(tag1[0].nodeName);
+        var att = document.createAttribute("OnChange");
+        att.value = "setDeadline()";
+        tag1[0].setAttributeNode(att);
+        // 定义日期处理函数
+        var datestr;
+        function dealdate(mydate){
+          var year = mydate.getFullYear();
+          var mon = mydate.getMonth()+1;
+          var day = mydate.getDate();
+          if(mon<10 && day<10){
+            datestr = year + "-" +"0" + mon + "-" + "0" + day;
+              }else if(mon<10 && day>9){
+                datestr = year + "-" +"0" + mon + "-" + day;
+              } else if(mon>9 && day<10){
+                datestr = year + "-" + mon + "-" + "0" + day;
+              } else{
+                  datestr = year + "-" + mon + "-" + day;
+              }
+        }
+
+        // 定义截止日期函数
+
+        function setDeadline(){
+          var protype = document.getElementsByName("pro_type");
+          var dict = {{ pro_dict|safe }};
+        //  console.log(dict['1']);
+          if(protype[0].selectedIndex == 1){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['1']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 2){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['2']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 3){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['3']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 4){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['4']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 5){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['5']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 6){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['6']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 7){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['7']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 8){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['8']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 9){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['9']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 10){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['10']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 11){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['11']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 12){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['12']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 13){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['13']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 14){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['14']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 15){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['15']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 16){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['16']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 17){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['17']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            } else{
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['18']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;}
+        }
+
+    </script>
+  {% endblock  %}

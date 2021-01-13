@@ -1,0 +1,144 @@
+{% extends "projects/base.html"  %}
+{% load static %}
+
+{% block title %} 发票详情页 {% endblock %}
+{% block css %}
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/select2/dist/css/select2.min.css' %}" />
+    <link href="{% static 'css/inv_detail.css'  %}" rel="stylesheet" />
+{% endblock  %}
+{% block content %}
+<div class="box box-info" id="inv_detail">
+    <div class="box-header with-border " id="detail_top" >
+        <h4 class="box-title">发票详细信息</h4>
+    </div>
+
+    <form class="form-horizontal" name="inv_detail" action="/projects/invoice/{{ inv_detail.id  }}/" method="post">
+
+      <div class="box-body">
+      <div class="row">
+          {% csrf_token  %}
+        <div class="col-md-6" id="detail_left">
+         <!--合同编号：-->
+        <div class="form-group ">
+            {{ invoice_form.contract_num.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.contract_num  }}</div>
+        </div>
+        <!--发票号：-->
+        <div class="form-group">
+            {{ invoice_form.num_invoice.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.num_invoice  }}</div>
+        </div>
+
+        <!--开票单位：-->
+        <div class="form-group">
+            {{ invoice_form.unit_invoice.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.unit_invoice  }}</div>
+        </div>
+
+        <!--开票日期：-->
+        <div class="form-group">
+            {{ invoice_form.date_invoice.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.date_invoice  }}</div>
+        </div>
+
+        <!--申请人：-->
+        <div class="form-group">
+            {{ invoice_form.person_apply.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.person_apply  }}</div>
+        </div>
+
+        <!--发票金额：-->
+        <div class="form-group">
+            {{ invoice_form.cost_invoice.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.cost_invoice  }}</div>
+        </div>
+        <!--发票寄送日期：-->
+        <div class="form-group">
+            {{ invoice_form.date_post.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.date_post  }}</div>
+        </div>
+
+        <!--发票快递单号：-->
+        <div class="form-group">
+            {{ invoice_form.num_express.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.num_express  }}</div>
+        </div>
+        </div>  <!--/detail_left-->
+
+        <div class="col-md-6" id="detail_right">
+        <!--合同回收日期：-->
+        <div class="form-group">
+            {{ invoice_form.date_callback.label_tag }}
+            <div class="col-md-6" >{{ invoice_form.date_callback }}</div>
+        </div>
+
+        <!--作废或冲红：-->
+        <div class="form-group">
+            {{ invoice_form.void_red.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.void_red  }}</div>
+        </div>
+
+        <!--回款日期：-->
+        <div class="form-group">
+            {{ invoice_form.date_payment.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.date_payment  }}</div>
+        </div>
+
+        <!--项目编号：-->
+        <div class="form-group">
+            {{ invoice_form.pro_num.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.pro_num  }}</div>
+        </div>
+
+        <!--是否结清：-->
+        <div class="form-group">
+            {{ invoice_form.pay_check.label_tag  }}
+            <div class="col-md-6" >{{ invoice_form.pay_check  }}</div>
+        </div>
+        </div>  <!-- /detail_right -->
+      </div>    <!-- /row -->
+      </div>  <!-- /.box-body -->
+      <div class="box-footer" id="detail_down" align="center">
+        <!--<div class="col-md-12" align="center">-->
+          <input class="btn btn-warning btn-sm" type="submit" value="保存修改"  />&nbsp;&nbsp;
+          <a class="btn btn-success btn-sm" href="{% url 'projects:invoice_list' %}" role="button"> 返回 </a>&nbsp;&nbsp;
+          <a class="btn btn-danger btn-sm" href="/projects/del_inv/{{ inv_detail.id }}/" role="button" onclick="javascript:return del()" >删除</a>
+
+      </div>  <!-- /.box-footer -->
+
+    </form>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+    <!-- Select2 -->
+    <script src="{% static 'adminlte-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script type="text/javascript">
+        function del(){
+            var msg="确定要删除吗？";
+            if (confirm(msg)==true){
+                return true;
+             } else {
+                return false;
+                }
+            };
+
+        $(document).ready(function(){
+          // 给label加上class属性;input加上class;
+          $("form label").addClass("col-md-5 control-label");
+          $("div.col-md-6 input").addClass("form-control");
+          $("div.col-md-6 select").addClass("form-control");
+
+          // 给mul-select添加样式,<!-- Select2 -->
+          $("#id_pro_num ").addClass("select2");
+          $("#id_pro_num ").attr("style","width:100%;");
+
+          //Initialize Select2 Elements
+          $('.select2').select2();
+
+          });
+    </script>
+{% endblock  %}
