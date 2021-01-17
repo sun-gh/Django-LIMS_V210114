@@ -11,6 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>{% block title %} base {% endblock %}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
   <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/font-awesome/css/font-awesome.min.css' %}">
@@ -22,6 +23,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="{% static 'adminlte-2.4.10/dist/css/skins/skin-blue.min.css' %}">
+  <!--ico图标-->
+  <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}" type="image/x-icon" />
   <!-- jQuery 3 -->
   <script src="{% static 'adminlte-2.4.10/bower_components/jquery/dist/jquery.min.js' %}"></script>
 
