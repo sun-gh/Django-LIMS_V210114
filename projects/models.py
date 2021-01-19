@@ -137,19 +137,19 @@ class ExperimentList(models.Model):
     experiment_num = models.CharField(max_length=64, verbose_name="项目编号", unique=True)
     pro_type = models.ForeignKey(ProjectType, verbose_name="项目类型", on_delete=models.CASCADE)  # default="蛋白鉴定")
     sam_type = models.ForeignKey(SampleType, verbose_name="样本类型", on_delete=models.CASCADE)
-    cost_type = models.ForeignKey(CostType, verbose_name="收费等级", on_delete=models.CASCADE)
+    cost_type = models.ForeignKey(CostType, verbose_name="收费等级", on_delete=models.CASCADE, blank=True, null=True)
     sample_num = models.PositiveSmallIntegerField(verbose_name="样本数量")
     name_terminal = models.CharField(max_length=128, verbose_name="送样终端", blank=True, null=True)
     # unit = models.CharField(max_length=128, verbose_name="送样单位")
-    unit = models.ForeignKey(UnitInvoice, verbose_name="送样单位", on_delete=models.CASCADE)
+    unit = models.ForeignKey(UnitInvoice, verbose_name="送样单位", on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=32, verbose_name="送样人")
     # addition_cost中是否为Foreignkey，还有待商榷
     addition_cost = models.ManyToManyField(AdditionalCost, verbose_name="附加收费", blank=True)  # 新修改
     date_preperation = models.CharField(max_length=32, verbose_name="制备完成", blank=True, null=True)
-    res_person = models.ForeignKey(ResPerson, verbose_name="负责人", on_delete=models.CASCADE)  # default="许梦玲")
+    res_person = models.ForeignKey(ResPerson, verbose_name="负责人", on_delete=models.CASCADE, blank=True, null=True)
     supply_info = models.ForeignKey(SupinformationExp, verbose_name="实验偏差", on_delete=models.CASCADE, blank=True,
                                     null=True)
-    instrument = models.ForeignKey(Machine, verbose_name="上机仪器", on_delete=models.CASCADE)  # default="5600")
+    instrument = models.ForeignKey(Machine, verbose_name="上机仪器", on_delete=models.CASCADE, blank=True, null=True)
     date_test = models.CharField(max_length=64, verbose_name="上机日期", blank=True, null=True)
     date_searchlib = models.CharField(max_length=64, verbose_name="搜库日期", blank=True, null=True)
     date_senddata = models.CharField(max_length=64, verbose_name="数据发送", blank=True, null=True)
