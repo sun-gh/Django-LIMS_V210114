@@ -118,9 +118,20 @@ $(document).ready( function() {
         //定义某几列不参与排序
         "columnDefs":[
             {"orderable":false, "targets":[1,2,5,6,7,8,11]},
-            {"width":"6%", "targets":0 },
-            {"width":"6%", "targets":5 },
-            {"width":"9%", "targets":9 },
+            {"width":"40px", "targets":0 },
+            {"width":"70px", "targets":1 },
+            {"width":"55px", "targets":2 },
+            {"width":"90px", "targets":3 },
+            {"width":"70px", "targets":4 },
+            {"width":"50px", "targets":5 },
+            {"width":"60px", "targets":6 },
+            {"width":"60px", "targets":7 },
+            {"width":"110px", "targets":8 },
+            {"width":"90px", "targets":9 },
+            {"width":"70px", "targets":10 },
+            {"width":"60px", "targets":11 },
+            {"width":"80px", "targets":12 },
+            {"width":"70px", "targets":13 },
             {
             "targets": [1,3],
             //"data": 'pro_type',
@@ -132,7 +143,7 @@ $(document).ready( function() {
         ]
 
         });
-        $('#mytab').wrapAll("<div style='overflow-x:auto; width:1000px'>");
+        $('#mytab').wrapAll("<div style='overflow-x:auto;width:100%; '></div>");
 
       });
 

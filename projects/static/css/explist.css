@@ -1,4 +1,12 @@
 
+th,td {
+    white-space:nowrap;  /* 不换行 */
+    overflow:hidden;  /* 内容超出宽度时隐藏超出部分内容*/
+    text-overflow:ellipsis;
+
+}
+
+
 /*.order_num {
     background-color:gray;
     width:3%;
@@ -16,16 +24,6 @@
     background-color:#81D4FA;
 
 }*/
-#mytab {
-    width:2280px;
-    table-layout:fixed;
-}
-th,td {
-    white-space:nowrap;  /* 不换行 */
-    overflow:hidden;  /* 内容超出宽度时隐藏超出部分内容*/
-    text-overflow:ellipsis;
-
-}
 
 
 

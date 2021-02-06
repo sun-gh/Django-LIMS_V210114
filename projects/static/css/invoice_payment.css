@@ -1,8 +1,4 @@
-#mytab {
-    table-layout:fixed;
-    width:1420px;
 
-}
 th,td {
     white-space:nowrap;   /* 不换行 */
     overflow:hidden;   /* 内容超出宽度时隐藏超出部分内容 */
