@@ -11,6 +11,7 @@ class AddExp(forms.ModelForm):
     date_searchlib = forms.DateField(label="搜库日期", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     date_senddata = forms.DateField(label="数据发送", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     deadline_pro = forms.DateField(label="项目截止日期", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    file = forms.FileField(label="相关文件", widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
     class Meta:
         model = ExperimentList
@@ -34,7 +35,7 @@ class AddExp(forms.ModelForm):
                   'pro_manager',
                   'pay_mode',
                   'deadline_pro',
-                  'file',
+                  'files',
                   ]
 
 

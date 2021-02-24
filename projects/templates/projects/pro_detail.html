@@ -121,16 +121,29 @@
         </div>
         <!--数据库文件：-->
         <div class="form-group " >
-          <div class="col-md-offset-3">  <!--此处div为了控制数据库文件部分的位置-->
-            {{ pro_form.file.label_tag  }}
-            {{ pro_form.file  }}<!--<div class="col-md-6" id="file">{{ pro_form.file  }}</div>-->
-          </div>
+            {{ pro_form.files.label_tag  }}
+
+            <div class="col-md-6">
+
+                <div class="pro_files" style="display:none;">{{  pro_form.files }}</div>
+                <div id="file_cyc">
+                {% for file in project_detail.files.all %}
+                    <div><a href="/media/{{ file.file.name }}">{{ file.file.name }}</a><button  type="button"
+                                                           class="btn_del" id="btn-{{ file.id }}">删除</button></div>
+                <!-- file.id &nbsp; project_detail.id -->
+                {% endfor %}
+                </div>
+                <div>添加附件：</div>
+                {{ pro_form.file }}
+
+            </div>
         </div>
+
         </div>
         </div>    <!-- /row -->
       </div>  <!-- /.box-body -->
         <div class="box-footer" align="center">
-          <!--<div class="col-md-12" id="detail_down" align="center">-->
+
             <input class="btn btn-warning btn-sm" type="submit" value="保存修改"  />&nbsp;&nbsp;&nbsp;
             <a class="btn btn-success btn-sm" href="{% url 'projects:pro_list' %}" role="button"> 返回 </a>&nbsp;&nbsp;&nbsp;&nbsp;
             <a class="btn btn-danger btn-sm" href="/projects/del_pro/{{ project_detail.id }}/" role="button" onclick="javascript:return del()" >删除</a>
@@ -162,5 +175,76 @@
         $("#id_file").removeAttr("class");
 
         $("div.col-md-6 select").addClass("form-control");
+
+        {#使用ajax方式#}
+        $(document).ready(function() {
+            // 获取csrf
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            const csrftoken = getCookie('csrftoken');
+            function csrfSafeMethod(method) {
+              // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            };
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+              }
+            });
+
+            $(".btn_del").each( function(index, domEle){
+                $(this).click(function() {
+                    var btn_id = $(this).attr("id");
+                    var str_arry = btn_id.split('-');
+                    var file_id = parseInt(str_arry[1]);  // 将string转换为Int
+                    //var data_arry = [ {{ project_detail.id }},file_id];
+                    $.post(
+                        "/projects/ajax/",
+                        {
+
+                        "type":"post",
+                        "pro_id": {{ project_detail.id }},
+                        "file_id": file_id
+                        },
+                        function(data, status) {
+                            if(status == "success"){
+                            {# 由于收到的data是个字符串格式，需要用json转换为object格式#}
+
+                            var file_call = JSON.parse(data);
+
+                            console.log(typeof file_call);
+                            {# console.log(file_call); #}
+
+                            var html_str = '';
+                            for(var i=0;i<file_call.length;i++){
+                                var file_name=file_call[i].fields.file;
+                                var file_id=file_call[i].pk;
+                                html_str += '<div><a href="/media/' + file_name + '">' + file_name + '</a><button type="button" class="btn_del" id="btn-' + file_id + '">删除</button></div>'
+                            };
+                            $('#file_cyc').html(html_str);
+
+                            }
+                        }
+                    );
+
+
+                } );  // click )
+            });  // each(
+        });  // ready )
     </script>
 {% endblock %}

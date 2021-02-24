@@ -23,5 +23,6 @@ admin.site.register(models.RequireInvoice)
 admin.site.register(models.ReimburseMaterial)
 admin.site.register(models.TypeApply)
 admin.site.register(models.ApplyInvoice)
+admin.site.register(models.FilesRelated)
 
 

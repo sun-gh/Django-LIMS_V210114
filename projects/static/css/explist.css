@@ -5,6 +5,11 @@ th,td {
     text-overflow:ellipsis;
 
 }
+/* 表头居中 */
+.table>thead:first-child>tr:first-child>th {
+    text-align:center;
+    }
+/* .table>tbody>tr>td {text-align:center;} */
 
 
 /*.order_num {

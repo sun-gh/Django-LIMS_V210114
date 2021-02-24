@@ -13,7 +13,7 @@
         <h4 class="box-title">开票申请详情</h4>
     </div>
 
-    <form class="form-horizontal" name="inv_detail" action="{% url 'projects:apply_detail' aly_detail.id %}" method="post">
+    <form class="form-horizontal" name="inv_detail" action="{% url 'projects:apply_detail' aly_detail.id %}" method="post" enctype="multipart/form-data">
       <div class="box-body">
       <div class="row">
         {% csrf_token  %}
@@ -203,7 +203,7 @@
         </div>  <!-- /row -->
         </div>  <!-- /.box-body -->
         <div class="box-footer" id="detail_down" >
-          <!--<div class="col-md-12 " align="center">-->
+
           <div class="col-md-4 col-md-offset-4" >
             <input class="btn btn-warning btn-sm" type="submit" value="保存修改"  />&nbsp;&nbsp;
             <a class="btn btn-success btn-sm" href="{% url 'projects:apply_list' %}" role="button"> 返回 </a>&nbsp;&nbsp;

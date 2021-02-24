@@ -1,13 +1,44 @@
-{% extends "projects/base.html" %}
+
 {% load static %}
 
-{% block content %}
+<!--{% block content %}-->
 
-  <div class="row">
-      <div class="col-md-12">
-         <p>夕阳无限好，只是近黄昏！ </p>
-      </div>
+<!--{% endblock content %}-->
 
-  </div>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<script src="{% static 'jquery-3.3.1.js' %}"></script>
+<script>
 
-{% endblock content %}
+    {#使用post方式#}
+    $(document).ready(function () {
+        $('#b').on('click',function () {
+        //用AJAX发送数据
+        $.ajax({
+            //四大参数。。 第一种我们正常提交数据默认发送数据的格式urlencode
+            url:'', // 不写默认往当前的地址提交
+            type:'post', //传输据的方式
+            data:{'l1':$('#l1').val(),'l2':$('#l2').val()},
+            {#data:JSON.stringify({'username':'koko','password':'123 '}),  #}
+            {#contentType:'application/json', #}
+            success:function (data) {
+
+                alert(data);
+                $('#d3').val(data);
+        },
+        })
+    })
+    });
+</script>
+</head>
+<body>
+<form action="">
+<input type="text" id="l1">+<input type="text" id="l2">=<input type="text" id="d3">
+
+<button class="btn btn-success" id="b">提交</button>
+</form>
+</body>
+</html>
+

@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 
-from .models import ExperimentList,  InvoicePayment, file_delete, ApplyInvoice, ProjectType, UnitInvoice
+from .models import ExperimentList,  InvoicePayment, file_delete, ApplyInvoice, ProjectType, UnitInvoice, FilesRelated
 from .forms import AddExp, AddInvoice, ApplyInvoiceForm
 from datetime import date, datetime
 import csv
 import codecs
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import os
+from django.core import serializers
 from django.core.paginator import Paginator
 
 # Create your views here.
@@ -34,6 +35,7 @@ def explist(request):
 
     # 计算pro的剩余周期
     percent_dict = {}
+    pre_dict = {}
     date_now = date.today().strftime('%Y-%m-%d')
     # 统计pro是否有开票记录
     record_inv = {}
@@ -44,6 +46,9 @@ def explist(request):
         delta = datetime.strptime(deadline_date, '%Y-%m-%d') - datetime.strptime(date_now, '%Y-%m-%d')
         time_percent = '{:.0%}'.format(delta.days/pro.pro_type.pro_period)
         percent_dict[i] = time_percent
+        d_value = pro.pro_type.pro_period - pro.pro_type.pre_period
+        pre_percent = '{:.0%}'.format((delta.days - d_value)/pro.pro_type.pre_period)
+        pre_dict[i] = pre_percent
         if pro.id in pros_list:
             record_inv[i] = '有'
         else:
@@ -51,7 +56,17 @@ def explist(request):
     # print(record_inv)
 
     return render(request, 'projects/exp_list.html', {'exp_list': experiment_list, 'per_dict': percent_dict,
-                                                      'rec_inv': record_inv})
+                                                      'pre_dict': pre_dict, 'rec_inv': record_inv})
+
+
+# 文件保存方法
+def handle_uploaded_file(f):
+    today = str(date.today())  # 获得今天日期
+    file_name = today + '_' + f.name  # 获得上传来的文件名称,加入下划线分开日期和名称
+    file_path = os.path.join(os.path.dirname(__file__), 'upload_file', file_name)  # 拼装目录名称+文件名称
+    with open(file_path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 
 @login_required()
@@ -59,10 +74,11 @@ def add_exp(request):
 
     if request.method == 'POST':
         addexp_form = AddExp(request.POST, request.FILES or None)
+
         if addexp_form.is_valid():
 
             exp_list = ExperimentList()
-            # ExperimentList.objects.create(
+
             exp_list.experiment_num = addexp_form.cleaned_data.get('experiment_num')
             exp_list.pro_type = addexp_form.cleaned_data.get('pro_type')
             exp_list.sam_type = addexp_form.cleaned_data.get('sam_type')
@@ -83,11 +99,19 @@ def add_exp(request):
             exp_list.pro_manager = addexp_form.cleaned_data.get('pro_manager')
             exp_list.pay_mode = addexp_form.cleaned_data.get('pay_mode')
             exp_list.deadline_pro = addexp_form.cleaned_data.get('deadline_pro')
-            exp_list.file = request.FILES.get('file')
+            # exp_list.file = request.FILES.getlist('file')
             exp_list.save()
             # 多对多字段要单独保存
             for cost in addexp_form.cleaned_data.get('addition_cost'):
                 exp_list.addition_cost.add(cost)
+            # 对上传的文件单独处理
+            file_list = request.FILES.getlist('file')  # 获取上传的多个文件的列表
+            file_obj = []
+            for file in file_list:
+                file_instance = FilesRelated.objects.create(file=file)
+                file_obj.append(file_instance)
+            for file in file_obj:
+                exp_list.files.add(file)
 
             return redirect('/projects/explist/')
         else:
@@ -118,7 +142,6 @@ def add_exp(request):
 
 @login_required()
 def pro_detail(request, pro_id):
-
     project_detail = ExperimentList.objects.get(id=pro_id)  # 此处pro_id不能加引号''
     if request.method == 'GET':
 
@@ -126,10 +149,49 @@ def pro_detail(request, pro_id):
 
         return render(request, 'projects/pro_detail.html', {'pro_form': pro_form, 'project_detail': project_detail})
     elif request.method == 'POST':
+        # pro_form = AddExp(request.POST, request.FILES or None)
+        # if pro_form.is_valid():
+        #    exp_detail = ExperimentList.objects.get(id=pro_id)  # 此处pro_id不能加引号''
         save_pro = AddExp(request.POST, request.FILES, instance=project_detail)   # 将更新的数据保存到数据库
-        save_pro.save()   # 此处必须添加save方法，否则数据不会保存到数据库
-        print("更新成功！")
+        #    exp_detail.experiment_num = pro_form.cleaned_data.get('experiment_num')
+        #    exp_detail.pro_type = pro_form.cleaned_data.get('pro_type')
+        #    exp_detail.sam_type = pro_form.cleaned_data.get('sam_type')
+        #    exp_detail.cost_type = pro_form.cleaned_data.get('cost_type')
+        #    exp_detail.sample_num = pro_form.cleaned_data.get('sample_num')
+        #    exp_detail.name_terminal = pro_form.cleaned_data.get('name_terminal')
+        #    exp_detail.unit = pro_form.cleaned_data.get('unit')
+        #    exp_detail.name = pro_form.cleaned_data.get('name')
+        # exp_list.addition_cost = addexp_form.cleaned_data.get('addition_cost')
+        #    exp_detail.date_preperation = pro_form.cleaned_data.get('date_preperation')
+        #    exp_detail.res_person = pro_form.cleaned_data.get('res_person')
+        #    exp_detail.supply_info = pro_form.cleaned_data.get('supply_info')
+        #    exp_detail.instrument = pro_form.cleaned_data.get('instrument')
+        #    exp_detail.date_test = pro_form.cleaned_data.get('date_test')
+        #    exp_detail.date_searchlib = pro_form.cleaned_data.get('date_searchlib')
+        #    exp_detail.date_senddata = pro_form.cleaned_data.get('date_senddata')
+        #    exp_detail.pro_cost = pro_form.cleaned_data.get('pro_cost')
+        #    exp_detail.pro_manager = pro_form.cleaned_data.get('pro_manager')
+        #    exp_detail.pay_mode = pro_form.cleaned_data.get('pay_mode')
+        #   exp_detail.deadline_pro = pro_form.cleaned_data.get('deadline_pro')
+        save_pro.save()  # 此处必须添加save方法，否则数据不会保存到数据库
+        # 多对多字段要单独保存
+        #    for cost in pro_form.cleaned_data.get('addition_cost'):
+        #        exp_detail.addition_cost.add(cost)
+
+        # 对另外添加的文件单独处理
+        file_list = request.FILES.getlist('file')  # 获取上传的多个文件的列表
+        file_obj = []
+        for file in file_list:
+            file_instance = FilesRelated.objects.create(file=file)
+            file_obj.append(file_instance)
+        for file in file_obj:
+            project_detail.files.add(file)
+
+        print("项目更新成功！")
         return redirect('/projects/explist/')
+    # else:
+    #    pro_form = AddExp()
+    #    return render(request, 'projects/pro_detail.html', locals())
 
 
 @login_required()
@@ -314,4 +376,43 @@ def test(request):
         unit = UnitInvoice(unit_name=line)
         unit.save()
 
+    return render(request, 'projects/test.html')
+
+
+from django.forms.models import model_to_dict
+
+
+def get(request):
+    # 定义ajax测试部分
+
+    # ret = {"status": "true", "messages": None, }
+    if request.method == "POST":
+        print("POST请求成功!")
+
+        if request.POST.get("type") == "post":
+            # ret["messages"] = "post()方法将返回值载入标签内！"
+            pro = ExperimentList.objects.get(id=request.POST.get("pro_id"))
+            file = FilesRelated.objects.get(id=request.POST.get("file_id"))
+            pro.files.remove(file)
+            pro_form = AddExp(instance=pro)
+            file_list = FilesRelated.objects.filter(experimentlist__id=request.POST.get("pro_id"))
+            json_file = serializers.serialize("json", file_list)
+            # print(json_file)
+
+            return HttpResponse(json_file)
+
+    # if request.method == "GET":
+    #    print(request.GET)
+    #    ret["messages"] = "get()方法返回服务器信息！"
+    return HttpResponse("Not POST request")
+
+
+def ajax_main(request):
+    # 定义ajax测试页
+    if request.method == 'POST':
+        print("ajax请求到达！")
+        l1 = request.POST.get('l1')
+        l2 = request.POST.get('l2')
+        res = int(l1) + int(l2)
+        return HttpResponse(res)
     return render(request, 'projects/test.html')

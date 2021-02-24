@@ -8,6 +8,7 @@ from django.dispatch.dispatcher import receiver
 
 class SampleType(models.Model):
     #  定义样本类型model
+
     sampletype = models.CharField(max_length=64, verbose_name="样本类型", unique=True)
 
     class Meta:
@@ -23,6 +24,7 @@ class ProjectType(models.Model):
 
     projecttype = models.CharField(max_length=64, verbose_name="项目类型", unique=True)
     pro_period = models.PositiveSmallIntegerField(verbose_name="项目周期", null=True, blank=True)
+    pre_period = models.PositiveSmallIntegerField(verbose_name="前处理周期", null=True, blank=True)
 
     class Meta:
         verbose_name = "项目类型表"
@@ -131,6 +133,27 @@ class UnitInvoice(models.Model):
         verbose_name_plural = verbose_name
 
 
+# 定义上传文件的目录和名字
+def user_directory_path(instance, filename):
+
+    return '{0}/{1}'.format(instance.experiment_num, filename)
+
+
+class FilesRelated(models.Model):
+
+    # 定义项目相关文件
+    file = models.FileField(verbose_name="相关文件", max_length=100, blank=True, null=True)
+    c_time = models.DateTimeField(verbose_name="上传时间", auto_now_add=True)
+
+    def __str__(self):
+
+        return str(self.file)
+
+    class Meta:
+        verbose_name = "项目相关文件"
+        verbose_name_plural = verbose_name
+
+
 class ExperimentList(models.Model):
     # 定义项目列表
 
@@ -157,11 +180,11 @@ class ExperimentList(models.Model):
     pro_manager = models.ForeignKey(ProManager, verbose_name="项目经理", on_delete=models.CASCADE, blank=True, null=True)
     pay_mode = models.ForeignKey(PayType, verbose_name="结算方式", on_delete=models.CASCADE, blank=True, null=True)
     deadline_pro = models.CharField(max_length=64, verbose_name="项目截止日期", blank=True, null=True)
-    file = models.FileField(verbose_name="数据库文件", max_length=100, blank=True, null=True)
+    files = models.ManyToManyField(FilesRelated, verbose_name="相关文件", blank=True)
     c_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 
     def __str__(self):
-        return self.experiment_num
+        return str(self.experiment_num)
 
     class Meta:
         ordering = ["experiment_num"]
@@ -274,7 +297,7 @@ class ApplyInvoice(models.Model):
     note = models.CharField(max_length=256, verbose_name="备注", blank=True, null=True)
     pro_num = models.ManyToManyField(ExperimentList, verbose_name="项目编号")
     person_apply = models.CharField(max_length=32, verbose_name="申请人")
-    status = models.CharField(max_length=32, verbose_name="状态", choices=status_type, default=APPLYING,)  # default选择数据库的值
+    status = models.CharField(max_length=32, verbose_name="状态", choices=status_type, default=APPLYING)  # default选择数据库的值
     c_time = models.DateTimeField(verbose_name="申请时间", auto_now_add=True)
 
     def __str__(self):

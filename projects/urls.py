@@ -32,5 +32,9 @@ urlpatterns = [
     # path('export_pro/', views.export_pro_csv),
     # path('export_inv/', views.export_inv_csv),
 
+    # 暂定为单位导入链接
     path('test/', views.test,),
+    # 定义ajax测试链接
+    path('ajax/', views.get),
+    path('ajax_main/', views.ajax_main),
 ]
