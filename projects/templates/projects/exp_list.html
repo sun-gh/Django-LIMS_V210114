@@ -97,29 +97,40 @@
                         <td>{{ experiment.cost_type|default_if_none:"--" }}</td>
                         <td>{{ experiment.sample_num }}</td>
                         <td>{{ experiment.name_terminal|default_if_none:"--" }}</td>
-                        <td class="unit" >{{ experiment.unit }}</td>
+                        <td class="unit" >{{ experiment.unit|default_if_none:"--" }}</td>
                         <td>{{ experiment.name }}</td>
                         <td>
-                            {% for cost in experiment.addition_cost.all %}
-                            <span>{{ cost.addition_type }}</span>
-                            {% endfor %}
+                            {% if not experiment.addition_cost.all %}
+                                <span>--</span>
+                            {% else %}
+                                {% for cost in experiment.addition_cost.all %}
+                                <span>{{ cost.addition_type }}</span>
+                                {% endfor %}
+                            {% endif %}
                         </td>
                         <td>{{ experiment.date_preperation|default_if_none:"--" }}</td>
-                        <td>{{ experiment.res_person }}</td>
+                        <td>{{ experiment.res_person|default_if_none:"--" }}</td>
                         <td>{{ experiment.supply_info|default_if_none:"--" }}</td>
-                        <td>{{ experiment.instrument }}</td>
+                        <td>{{ experiment.instrument|default_if_none:"--" }}</td>
                         <td>{{ experiment.date_test|default_if_none:"--" }}</td>
                         <td>{{ experiment.date_searchlib|default_if_none:"--" }}</td>
                         <td>{{ experiment.date_senddata|default_if_none:"--" }}</td>
-                        <td>{{ experiment.pro_cost }}</td>
-                        <td>{{ experiment.pro_manager }}</td>
+                        <td>{{ experiment.pro_cost|default_if_none:"--" }}</td>
+                        <td>{{ experiment.pro_manager|default_if_none:"--" }}</td>
                         <td>{{ experiment.pay_mode|default_if_none:"--" }}</td>
                         <td>{{ experiment.deadline_pro }}</td>
 
                         <td>
-                            {% for file in experiment.files.all %}
-                            <span><a href="/media/{{ file.file.name }}">{{ file.file.name }}</a></span>
-                            {% endfor %}
+
+                            {% if not experiment.files.all %}
+                                <span>--</span>
+                            {% elif experiment.files.all.count == 1 %}
+                                {% for file in experiment.files.all %}
+                                <span><a href="/media/{{ file.file.name }}">{{ file.file.name }}</a></span>
+                                {% endfor %}
+                            {% else %}
+                                <span>{{ experiment.files.all.count }}个文件</span>
+                            {% endif %}
                         </td>
                         <td >
                             {% for i,rec in rec_inv.items  %}

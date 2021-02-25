@@ -58,20 +58,46 @@
                         <td>{{ apply.cost_invoice }}</td>
                         <td>{{ apply.sheet_num }}</td>
                         <td>
-                            {% for require in apply.require_invoice.all  %}
-                            <span>{{ require.require_content }}</span>
-                            {% endfor  %}
+                            {% if not apply.require_invoice.all %}
+                                <span>--</span>
+                            {% else %}
+                                {% for require in apply.require_invoice.all  %}
+                                <span>{{ require.require_content }}</span>
+                                {% endfor  %}
+                            {% endif %}
                         </td>
                         <!--报账材料暂时不需要-->
-                        <td><a href="/media/{{ apply.contract_file.name }}"> {{ apply.contract_file.name }}</a> </td>
-                        <td><a href="/media/{{ apply.list_file.name }}">{{ apply.list_file.name }}</a></td>
-                        <td><a href="/media/{{ apply.report_file.name }}">{{ apply.report_file.name }}</a></td>
+                        <td>
+                            {% if not apply.contract_file %}
+                                <span>--</span>
+                            {% else %}
+                                <a href="/media/{{ apply.contract_file.name }}"> {{ apply.contract_file.name }}</a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not apply.list_file %}
+                                <span>--</span>
+                            {% else %}
+                                <a href="/media/{{ apply.list_file.name }}">{{ apply.list_file.name }}</a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not apply.report_file %}
+                                <span>--</span>
+                            {% else %}
+                                <a href="/media/{{ apply.report_file.name }}">{{ apply.report_file.name }}</a>
+                            {% endif %}
+                        </td>
                         <td>{{ apply.address_linkman|default_if_none:"--" }}</td>
                         <td>{{ apply.type_apply }}</td>
                         <td>
-                            {% for original_inv in apply.red_invoice.all  %}
-                            <span>{{ original_inv.red_invoice }}</span>
-                            {% endfor %}
+                            {% if not apply.red_invoice.all %}
+                                <span>--</span>
+                            {% else %}
+                                {% for original_inv in apply.red_invoice.all  %}
+                                <span>{{ original_inv.red_invoice }}</span>
+                                {% endfor %}
+                            {% endif %}
                         </td>
                         <td>{{ apply.note|default_if_none:"--" }}</td>
                         <td>

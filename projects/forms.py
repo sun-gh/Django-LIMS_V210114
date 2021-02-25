@@ -5,7 +5,7 @@ from .models import ExperimentList, InvoicePayment, ApplyInvoice
 
 class AddExp(forms.ModelForm):
     # 定义添加项目表单
-
+    #experiment_num = forms.CharField(label_suffix=':*')
     date_preperation = forms.DateField(label="制备完成", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     date_test = forms.DateField(label="上机日期", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     date_searchlib = forms.DateField(label="搜库日期", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
