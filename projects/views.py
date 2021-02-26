@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 
-from .models import ExperimentList,  InvoicePayment, file_delete, ApplyInvoice, ProjectType, UnitInvoice, FilesRelated
+from .models import ExperimentList,  InvoicePayment, ApplyInvoice, ProjectType, UnitInvoice, FilesRelated
 from .forms import AddExp, AddInvoice, ApplyInvoiceForm
 from datetime import date, datetime
 import csv
@@ -198,10 +198,10 @@ def pro_detail(request, pro_id):
 def pro_del(request, pro_id):
 
     project_detail = ExperimentList.objects.get(id=pro_id)
-    sender = ExperimentList
-    file_delete(sender, project_detail, )
+    # sender = ExperimentList
+    # file_delete(sender, project_detail, )
     project_detail.delete()
-    print("删除成功！")
+    print("项目删除成功！")
     return redirect('/projects/explist/')
 
 

@@ -192,10 +192,10 @@ class ExperimentList(models.Model):
         verbose_name_plural = verbose_name
 
 
-@receiver(pre_delete, sender=ExperimentList)
-def file_delete(sender, instance, **kwargs):
+# @receiver(pre_delete, sender=ExperimentList)
+# def file_delete(sender, instance, **kwargs):
     # 定义上传文件的删除方法
-    instance.file.delete(False)
+#    instance.files.delete(False)
 
 
 class InvoicePayment(models.Model):
