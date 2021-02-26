@@ -203,9 +203,10 @@ desired effect
         <li class="header">导航栏</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="{% url 'projects:pro_list' %}"><i class="fa fa-dashboard"></i> <span>项目总表</span></a></li>
-        <li><a href="{% url 'projects:invoice_list' %}"><i class="fa fa-table"></i> <span>已开发票总表</span></a></li>
-        <li><a href="{% url 'projects:apply_list' %}"><i class="fa fa-table"></i> <span>开票申请记录</span></a></li>
         <li><a href="{% url 'projects:apply_inv' %}"><i class="fa fa-edit"></i> <span>开票申请</span></a></li>
+        <li><a href="{% url 'projects:apply_list' %}"><i class="fa fa-table"></i> <span>开票申请记录</span></a></li>
+        <li><a href="{% url 'projects:invoice_list' %}"><i class="fa fa-table"></i> <span>已开发票总表</span></a></li>
+
       </ul>
       <!-- /.sidebar-menu -->
     </section>
