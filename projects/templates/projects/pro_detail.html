@@ -128,14 +128,13 @@
                 <div class="pro_files" style="display:none;">{{  pro_form.files }}</div>
                 <div id="file_cyc">
                 {% for file in project_detail.files.all %}
-                    <div><a href="/media/{{ file.file.name }}">{{ file.file.name }}</a><button  type="button"
-                                                           class="btn_del" id="btn-{{ file.id }}">删除</button></div>
+                    <div><a href="/media/{{ file.file.name }}">{{ file.file.name }}</a>&nbsp;<button  type="button"
+                                                           class="btn_del btn-xs" id="btn-{{ file.id }}">删除</button></div>
                 <!-- file.id &nbsp; project_detail.id -->
                 {% endfor %}
                 </div>
                 <div>添加附件：</div>
                 {{ pro_form.file }}
-
             </div>
         </div>
 
@@ -234,7 +233,7 @@
                             for(var i=0;i<file_call.length;i++){
                                 var file_name=file_call[i].fields.file;
                                 var file_id=file_call[i].pk;
-                                html_str += '<div><a href="/media/' + file_name + '">' + file_name + '</a><button type="button" class="btn_del" id="btn-' + file_id + '">删除</button></div>'
+                                html_str += '<div><a href="/media/' + file_name + '">' + file_name + '</a>&nbsp;<button type="button" class="btn_del btn-xs" id="btn-' + file_id + '">删除</button></div>'
                             };
                             $('#file_cyc').html(html_str);
 

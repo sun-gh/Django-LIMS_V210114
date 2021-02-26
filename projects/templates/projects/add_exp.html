@@ -21,7 +21,9 @@
           <div class="form-group">
              {{ addexp_form.experiment_num.label_tag  }}
 
-            <div class="col-md-6" id="experiment_num">{{ addexp_form.experiment_num  }}</div>
+            <div class="col-md-6" id="experiment_num">
+              {{ addexp_form.experiment_num  }}
+            </div>
           </div>
           <!--项目类型：-->
           <div class="form-group">
@@ -89,7 +91,7 @@
           </div>
           <!--上机日期：-->
           <div class="form-group">
-            {{ addexp_form.date_test.label_tag  }}
+             {{ addexp_form.date_test.label_tag  }}
             <div class="col-md-6" id="date_test">{{ addexp_form.date_test  }}</div>
           </div>
           <!--搜库日期：-->
@@ -153,6 +155,14 @@
         $("div.col-md-6 input").addClass("form-control");
         // $("#id_file").removeAttr("class");
         $("div.col-md-6 select").addClass("form-control");
+        // 给必填项添加*
+        var txt1 = '<span style="color:red">* </span>';
+        $("[for='id_experiment_num']").prepend(txt1);
+        $("[for='id_pro_type']").prepend(txt1);
+        $("[for='id_sam_type']").prepend(txt1);
+        $("[for='id_sample_num']").prepend(txt1);
+        $("[for='id_name']").prepend(txt1);
+
         // 给select添加样式,<!-- Select2 -->
         $("#id_unit").addClass("form-control select2");
         $("#id_unit").attr("style","width:100%;");

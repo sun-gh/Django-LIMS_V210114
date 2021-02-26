@@ -232,6 +232,15 @@
         $("form label").addClass("col-md-5 control-label");
         $("div.col-md-6 input").addClass("form-control");
         $("div.col-md-6 select").addClass("form-control");
+        // 给必填项添加*
+        var txt1 = '<span style="color:red">* </span>';
+        $("[for='id_contract_num']").prepend(txt1);
+        $("[for='id_unit_name']").prepend(txt1);
+        $("[for='id_cost_invoice']").prepend(txt1);
+        $("[for='id_sheet_num']").prepend(txt1);
+        $("[for='id_adress_linkman']").prepend(txt1);
+        $("[for='id_type_apply']").prepend(txt1);
+        $("[for='id_pro_num']").prepend(txt1);
 
         // 给select添加样式,<!-- Select2 -->
         $("#id_unit_name ").addClass("form-control select2");
