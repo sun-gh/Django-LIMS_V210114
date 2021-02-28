@@ -1,5 +1,5 @@
 from django import forms
-from .models import ExperimentList, InvoicePayment, ApplyInvoice
+from .models import ExperimentList, InvoicePayment, ApplyInvoice, UnitInvoice
 # from django.contrib.admin.widgets import AdminDateWidget
 
 
@@ -93,4 +93,17 @@ class ApplyInvoiceForm(forms.ModelForm):
                   'pro_num',
                   'person_apply',
                   'status',
+                  ]
+
+
+class UnitForm(forms.ModelForm):
+    # 定义客户单位表单
+    unit_name = forms.CharField(label="状态", widget=forms.TextInput(attrs={'placeholder': '请输入单位全称！'}),)
+    # c_time = forms.DateField(label="申请日期", widget=forms.DateInput(attrs={'type': 'date'}),)
+
+    class Meta:
+        model = UnitInvoice
+        fields = ['unit_name',
+                  'person_add',
+
                   ]

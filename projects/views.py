@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 
 from .models import ExperimentList,  InvoicePayment, ApplyInvoice, ProjectType, UnitInvoice, FilesRelated
-from .forms import AddExp, AddInvoice, ApplyInvoiceForm
+from .forms import AddExp, AddInvoice, ApplyInvoiceForm, UnitForm
 from datetime import date, datetime
 import csv
 import codecs
@@ -31,7 +31,7 @@ def explist(request):
         experiment_list = ExperimentList.objects.filter(name=q).all()
         return render(request, 'projects/exp_list.html', {'exp_list': experiment_list})
     else:"""
-    experiment_list = ExperimentList.objects.all().order_by('id')
+    experiment_list = ExperimentList.objects.all().order_by('-id')
 
     # 计算pro的剩余周期
     percent_dict = {}
@@ -209,7 +209,7 @@ def pro_del(request, pro_id):
 # @permission_required('projects.can_view_invoicepayment')
 def invoice_payment(request):
 
-    invoice_list = InvoicePayment.objects.all().order_by('id')
+    invoice_list = InvoicePayment.objects.all().order_by('-id')
 
     record_red = {}
     red_rec = ApplyInvoice.objects.values_list('red_invoice', flat=True)
@@ -364,6 +364,59 @@ def apply_del(request, apply_id):
     apply.delete()
     print("删除成功！")
     return redirect('/projects/applylist/')
+
+
+def unit_list(request):
+    # 定义单位列表
+    units = UnitInvoice.objects.all().order_by('-id')
+
+    return render(request, 'projects/unit_list.html', {'unit_list': units})
+
+
+def add_unit(request):
+
+    if request.method == 'POST':
+        unit_form = UnitForm(request.POST)
+        if unit_form.is_valid():
+            print("单位添加表单验证通过！")
+
+            # 将数据添加到数据库
+            unit_form.save()
+
+            return redirect('/projects/unit_list/')
+        else:
+            # print("发票申请表单验证有误！")
+            unit_form = UnitForm()
+            return render(request, 'projects/add_unit.html', locals())
+    else:
+        unit_form = UnitForm()
+        return render(request, 'projects/add_unit.html', locals())
+
+
+def unit_detail(request, unit_id):
+    # 定义客户单位的详情页
+
+    unit = UnitInvoice.objects.get(id=unit_id)
+    if request.method == 'GET':
+
+        unit_form = UnitForm(instance=unit)
+
+        return render(request, 'projects/unit_detail.html', {'unit_form': unit_form, 'unit_obj': unit})
+    elif request.method == 'POST':
+        save_unit = UnitForm(request.POST, instance=unit)  # 将更新的数据保存到数据库
+        save_unit.save()  # 此处必须添加save方法，否则数据不会保存到数据库
+        print("单位更新成功！")
+
+        return redirect('/projects/unit_list/')
+
+
+def unit_del(request, unit_id):
+
+    unit = UnitInvoice.objects.get(id=unit_id)
+    unit.delete()
+    print("单位删除成功！")
+
+    return redirect('/projects/unit_list/')
 
 
 def test(request):

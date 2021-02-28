@@ -32,9 +32,15 @@ urlpatterns = [
     # path('export_pro/', views.export_pro_csv),
     # path('export_inv/', views.export_inv_csv),
 
-    # 暂定为单位导入链接
+    # 暂定为单位自动导入链接
     path('test/', views.test,),
+    # 定义手动添加单位链接
+    path('unit_list/', views.unit_list, name='unit_list'),
+    path('add_unit/', views.add_unit, name='add_unit'),
+    path('unit/<int:unit_id>/', views.unit_detail, name='unit_detail'),
+    path('del_unit/<int:unit_id>/', views.unit_del),
     # 定义ajax测试链接
     path('ajax/', views.get),
     path('ajax_main/', views.ajax_main),
+
 ]

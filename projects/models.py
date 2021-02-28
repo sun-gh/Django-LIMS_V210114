@@ -123,6 +123,8 @@ class UnitInvoice(models.Model):
 
     # 定义开票单位
     unit_name = models.CharField(max_length=128, verbose_name="开票单位", unique=True)
+    person_add = models.CharField(max_length=128, verbose_name="添加人")
+    c_time = models.DateTimeField(verbose_name="添加时间", auto_now_add=True)
 
     def __str__(self):
         return str(self.unit_name)

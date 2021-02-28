@@ -27,6 +27,7 @@
           <thead>
               <tr>
                   <th class="order_num" >序号</th>
+                  <th class="pay_info" >状态</th>
                   <th class="basic_info" >合同编号</th>
                   <th class="basic_info" >开票单位</th>
                   <th class="basic_info" >新单位名称</th>
@@ -43,7 +44,7 @@
                   <th class="pay_info" >项目编号</th>
                   <th class="pay_info" >申请人</th>
                   <th class="pay_info" >申请日期</th>
-                  <th class="pay_info" >状态</th>
+
 
               </tr>
           </thead>
@@ -51,7 +52,7 @@
                 {% for apply in apply_list %}
                     <tr>
                         <td>{{ forloop.counter }}</td>  <!--forloop为当前循环的次数-->
-
+                        <td>{{ apply.get_status_display }}</td>
                         <td> <a href="/projects/apply/{{ apply.id }}">{{ apply.contract_num }}</a> </td>
                         <td>{{ apply.unit_name }}</td>
                         <td>{{ apply.new_unit|default_if_none:"--" }}</td>
@@ -107,7 +108,7 @@
                         </td>
                         <td>{{ apply.person_apply }}</td>
                         <td>{{ apply.c_time|date:"Y-m-d" }}</td>
-                        <td>{{ apply.get_status_display }}</td>
+
 
                     </tr>
                 {% endfor %}
@@ -154,28 +155,28 @@ $(document).ready( function() {
         ],
         //定义某几列不参与排序
         "columnDefs":[
-            {"orderable":false, "targets":[3,4,5,6,7,8,9,10,11,13,14]},
+            {"orderable":false, "targets":[4,5,6,7,8,9,10,11,12,14,15]},
             {"width":"40px", "targets":0 },
-            {"width":"75px", "targets":1 },
-            {"width":"90px", "targets":2 },
-            {"width":"90px", "targets":3 },
-            {"width":"60px", "targets":4 },
+            {"width":"45px", "targets":1 },
+            {"width":"75px", "targets":2 },
+            {"width":"230px", "targets":3 },
+            {"width":"90px", "targets":4 },
             {"width":"60px", "targets":5 },
             {"width":"60px", "targets":6 },
             {"width":"60px", "targets":7 },
             {"width":"60px", "targets":8 },
             {"width":"60px", "targets":9 },
-            {"width":"70px", "targets":10 },
+            {"width":"60px", "targets":10 },
             {"width":"70px", "targets":11 },
             {"width":"70px", "targets":12 },
             {"width":"70px", "targets":13 },
-            {"width":"60px", "targets":14 },
-            {"width":"55px", "targets":15 },
-            {"width":"70px", "targets":16 },
-            {"width":"45px", "targets":17 },
+            {"width":"70px", "targets":14 },
+            {"width":"60px", "targets":15 },
+            {"width":"55px", "targets":16 },
+            {"width":"70px", "targets":17 },
 
             {
-            "targets": [2,10,11,12],
+            "targets": [3,11,12,13],
             //"data": 'pro_type',
             "render": function ( data, type, full, meta ) {
                 return data.length > 4 ?'<span title="'+data+'">'+data+'</span>':data;
