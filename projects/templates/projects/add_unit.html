@@ -1,0 +1,75 @@
+{% extends "projects/base.html"  %}
+{% load static %}
+
+{% block title %} 添加单位 {% endblock %}
+{% block css %}
+
+     <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/select2/dist/css/select2.min.css' %}" />
+    <!--<link href="{% static 'css/apply_inv.css'  %}" rel="stylesheet" />-->
+{% endblock  %}
+{% block content %}
+<div class=" box box-info ">
+    <div  class="box-header with-border " >
+        <h4 class="box-title">添加单位</h4>
+    </div>
+
+    <form class="form-horizontal" name="apply_invoice" action="/projects/add_unit/" method="post" >
+      <div class="box-body">
+        <div class="row">
+        {% csrf_token  %}
+        <div class="col-md-6 " id="inv_left">
+
+        <!--单位名称：-->
+        <div class="form-group">
+            {{ unit_form.unit_name.label_tag  }}
+            <div class="col-md-6" id="unit_name">
+              {{ unit_form.unit_name  }}
+            </div>
+        </div>
+
+        <!--添加人：-->
+        <div class="form-group">
+            {{ unit_form.person_add.label_tag  }}
+            <div class="col-md-6" id="person_add">
+
+                <input  type="text" name="person_add" value="{{ request.session.user_name }}" readonly="true" id="id_person_add" />
+            </div>
+        </div>
+
+        </div>
+        <div class="col-md-6 " id="inv_right">
+
+
+        </div>   <!-- /inv_right -->
+        </div>    <!-- /row -->
+      </div>  <!-- /.box-body -->
+        <div class="box-footer" align="center">
+          <!--<div class="col-md-12" align="center">-->
+            <input class="btn btn-warning btn-sm" type="submit" value="提交"  />&nbsp;&nbsp;
+            <input class="btn btn-danger btn-sm" type="reset" value="重置"  />
+        </div>  <!-- /.box-footer -->
+    </form>
+
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+    <!-- Select2 -->
+    <script src="{% static 'adminlte-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script type="text/javascript">
+
+      $(document).ready(function(){
+        // 给label加上class属性;input加上class;
+        $("form label").addClass("col-md-5 control-label");
+        $("div.col-md-6 input").addClass("form-control");
+
+
+      });
+
+
+    </script>
+{% endblock  %}
+

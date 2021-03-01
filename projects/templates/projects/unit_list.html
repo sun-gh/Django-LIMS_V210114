@@ -1,0 +1,111 @@
+{% extends "projects/base.html" %}
+{% load static %}
+
+{% block title %} 客户单位总表 {% endblock %}
+
+{% block css %}
+
+  <link rel="stylesheet" href="{% static 'datatables/DataTables-1.10.22/css/jquery.dataTables.min.css' %}">
+  <link rel="stylesheet" href="{% static 'datatables/Buttons-1.6.5/css/buttons.dataTables.min.css' %}">
+  <!--<link rel="stylesheet" href="{% static 'css/invoice_payment.css'  %}"  />-->
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+<div class="col-xs-12">
+
+<div class="box">
+
+  <div class="box-header" >
+        <h4 class="box-title">客户单位总表</h4>
+  </div>
+
+  <div class="box-body" >
+
+      <table id="mytab" class="table table-bordered table-condensed table-striped">
+          <thead>
+              <tr>
+                  <th  class="order_num" >序号</th>
+                  <th  class="basic_info" >单位名称</th>
+                  <th  class="basic_info" >添加人</th>
+                  <th  class="basic_info" >添加时间</th>
+                  <!--<th  class="basic_info" >操作</th>-->
+              </tr>
+          </thead>
+          <tbody>
+                {% for unit in unit_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="/projects/unit/{{ unit.id }}">{{ unit.unit_name }}</a> </td>
+                        <td>{{ unit.person_add }}</td>
+                        <td>{{ unit.c_time|date:"Y-m-d" }}</td>
+                        <!--<td>删除</td>-->
+                    </tr>
+                {% endfor %}
+          </tbody>
+      </table>
+
+  </div> <!--/.box-body-->
+</div>  <!--/.box-->
+</div>  <!--/.col-->
+</div>  <!--/.row-->
+
+
+{% endblock content %}
+
+{% block script %}
+
+<!--新加入的datatables插件-->
+<script type="text/javascript" src="{% static 'datatables/DataTables-1.10.22/js/jquery.dataTables.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/dataTables.buttons.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/JSZip-2.5.0/jszip.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.flash.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.html5.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'datatables/Buttons-1.6.5/js/buttons.print.min.js' %}"></script>
+
+<script>
+$(document).ready( function() {
+        $('#mytab').DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "info": true,
+          "ordering":true,
+          //"scrollX": true,
+          "autoWidth":false,
+          "lengthMenu":[[5,10,25,50,-1],[5,10,25,50,"all"]],
+
+          dom:'lBfrtip',
+          "buttons": [
+            {
+                extend:'excel',
+                text:'Export',
+            }
+        ],
+        //定义某几列不参与排序
+        "columnDefs":[
+            //{"orderable":false, "targets":[1,2,5,6,7,8,11]},
+            //{"width":"40px", "targets":0 },
+            //{"width":"75px", "targets":1 },
+
+            {
+            "targets": [3],
+            //"data": 'pro_type',
+            "render": function ( data, type, full, meta ) {
+                return data.length > 4 ?'<span title="'+data+'">'+data+'</span>':data;
+            },
+            },
+
+        ]
+
+        });
+        $('#mytab').wrapAll("<div style='overflow-x:auto;width:100%; '></div>");
+        $('.dt-buttons').prepend('&nbsp;&nbsp;<a class="btn btn-info active" role="button" href="{% url 'projects:add_unit' %}">New</a>&nbsp;');
+
+      });
+
+</script>
+
+{% endblock %}

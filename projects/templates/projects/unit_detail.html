@@ -1,0 +1,82 @@
+{% extends "projects/base.html"  %}
+{% load static %}
+
+{% block title %} 客户单位详情页 {% endblock %}
+{% block css %}
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/select2/dist/css/select2.min.css' %}" />
+    <!--<link href="{% static 'css/inv_detail.css'  %}" rel="stylesheet" />-->
+{% endblock  %}
+{% block content %}
+<div class="box box-info" id="inv_detail">
+    <div class="box-header with-border " id="detail_top" >
+        <h4 class="box-title">单位详细信息</h4>
+    </div>
+
+    <form class="form-horizontal" name="unit_detail" action="/projects/unit/{{ unit_obj.id  }}/" method="post">
+
+      <div class="box-body">
+      <div class="row">
+          {% csrf_token  %}
+        <div class="col-md-6" id="detail_left">
+
+        <!--单位名称：-->
+        <div class="form-group">
+            {{ unit_form.unit_name.label_tag  }}
+            <div class="col-md-6" >{{ unit_form.unit_name  }}</div>
+        </div>
+
+        <!--添加人：-->
+        <div class="form-group">
+            {{ unit_form.person_add.label_tag  }}
+            <div class="col-md-6" >{{ unit_form.person_add  }}</div>
+        </div>
+
+        <!--添加日期：-->
+        <div class="form-group">
+            <label for="add_time" class="col-md-5 control-label">添加时间:</label>
+            <div class="col-md-6" ><span class="form-control" id="add_time">{{ unit_obj.c_time|date:"Y-m-d"  }}</span></div>
+        </div>
+
+        </div>  <!--/detail_left-->
+
+        <div class="col-md-6" id="detail_right">
+
+        </div>  <!-- /detail_right -->
+      </div>    <!-- /row -->
+      </div>  <!-- /.box-body -->
+      <div class="box-footer" id="detail_down" align="center">
+
+          <input class="btn btn-warning btn-sm" type="submit" value="保存修改"  />&nbsp;&nbsp;
+          <a class="btn btn-success btn-sm" href="{% url 'projects:unit_list' %}" role="button"> 返回 </a>&nbsp;&nbsp;
+          <a class="btn btn-danger btn-sm" href="/projects/del_unit/{{ unit_obj.id }}/" role="button" onclick="javascript:return del()" >删除</a>
+
+      </div>  <!-- /.box-footer -->
+
+    </form>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+    <!-- Select2 -->
+    <script src="{% static 'adminlte-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
+    <script type="text/javascript">
+        function del(){
+            var msg="确定要删除吗？";
+            if (confirm(msg)==true){
+                return true;
+             } else {
+                return false;
+                }
+            };
+
+        $(document).ready(function(){
+          // 给label加上class属性;input加上class;
+          $("form label").addClass("col-md-5 control-label");
+          $("div.col-md-6 input").addClass("form-control");
+
+          });
+    </script>
+{% endblock  %}
