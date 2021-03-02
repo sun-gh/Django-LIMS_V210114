@@ -109,25 +109,26 @@
         </div>
         <div class="col-md-6 " id="inv_right">
         <!--合同文件：-->
-        <div class="form-group">
-            {{ applyinv_form.contract_file.label_tag  }}
-            <div class="col-md-6 " id="contract_file">
+        <div class="form-group ">
+
+            <div class="col-md-offset-3">
+                {{ applyinv_form.contract_file.label_tag  }}
                 {{ applyinv_form.contract_file  }}
             </div>
         </div>
 
         <!--项目清单：-->
         <div class="form-group">
-            {{ applyinv_form.list_file.label_tag  }}
-            <div class="col-md-6 " id="list_file">
+            <div class="col-md-offset-3 " >
+                {{ applyinv_form.list_file.label_tag  }}
                 {{ applyinv_form.list_file  }}
             </div>
         </div>
 
         <!--检测报告：-->
         <div class="form-group">
-            {{ applyinv_form.report_file.label_tag  }}
-            <div class="col-md-6 " id="report_file">
+            <div class="col-md-offset-3 " >
+                {{ applyinv_form.report_file.label_tag  }}
                 {{ applyinv_form.report_file  }}
             </div>
         </div>
@@ -157,7 +158,7 @@
         </div>
 
         <!--备注：-->
-        <div class="form-group">
+        <div class="form-group ">
             {{ applyinv_form.note.label_tag  }}
             <div class="col-md-6" id="note">
                 {{ applyinv_form.note  }}
@@ -232,6 +233,7 @@
         $("form label").addClass("col-md-5 control-label");
         $("div.col-md-6 input").addClass("form-control");
         $("div.col-md-6 select").addClass("form-control");
+
         // 给必填项添加*
         var txt1 = '<span style="color:red">* </span>';
         $("[for='id_contract_num']").prepend(txt1);
@@ -245,7 +247,15 @@
         // 给select添加样式,<!-- Select2 -->
         $("#id_unit_name ").addClass("form-control select2");
         $("#id_unit_name ").attr("style","width:100%;");
-        // $("[for='id_unit_name' ]").removeClass();
+        // 给合同文件去除class
+        $("#id_contract_file").removeClass();
+        $("[for='id_contract_file' ]").removeClass();
+        // 给项目清单去除class
+        $("#id_list_file").removeClass();
+        $("[for='id_list_file' ]").removeClass();
+        // 给检测报告去除class
+        $("#id_report_file").removeClass();
+        $("[for='id_report_file' ]").removeClass();
         // 给mul-select添加样式,<!-- Select2 -->
         $("#id_pro_num ").addClass("form-control select2");
         $("#id_pro_num ").attr("style","width:100%;");

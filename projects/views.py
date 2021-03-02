@@ -236,7 +236,16 @@ def invoice_detail(request, inv_id):
 
         invoice_form = AddInvoice(instance=inv_detail)
 
-        return render(request, 'projects/inv_detail.html', {'invoice_form': invoice_form, 'inv_detail': inv_detail})
+        record_red = ''
+        red_rec = ApplyInvoice.objects.values_list('red_invoice', flat=True)
+        red_list = list(red_rec)
+        if inv_detail.id in red_list:
+            record_red = '是'
+        else:
+            record_red = '否'
+
+        return render(request, 'projects/inv_detail.html', {'invoice_form': invoice_form, 'inv_detail': inv_detail,
+                                                            'record_red': record_red})
     elif request.method == 'POST':
         save_inv = AddInvoice(request.POST, instance=inv_detail)  # 将更新的数据保存到数据库
         save_inv.save()  # 此处必须添加save方法，否则数据不会保存到数据库
@@ -255,7 +264,7 @@ def inv_del(request, inv_id):
 
 def applylist(request):
 
-    apply_list = ApplyInvoice.objects.all().order_by('-c_time')
+    apply_list = ApplyInvoice.objects.all().order_by('-id')
 
     '''paginator = Paginator(applys, 3)
     page = request.GET.get('page')

@@ -32,8 +32,9 @@
               <tr>
                   <th class="order_num" >序号</th>
                   <th class="basic_info">剩余周期</th>
-                  <th >前处理剩余周期</th>
                   <th class="basic_info" >项目编号</th>
+                  <th >前处理剩余周期</th>
+
                   <th class="basic_info" >项目类型</th>
                   <th class="basic_info" >样本类型</th>
                   <th class="basic_info" >收费类型</th>
@@ -77,6 +78,7 @@
                             {% endfor %}
                             </div>
                         </td>
+                        <td> <a href="/projects/pro/{{ experiment.id }}">{{ experiment.experiment_num }} </a> </td>
                         <!--前处理剩余周期-->
                         <td >
                             <div class="progress">
@@ -92,7 +94,7 @@
                             {% endfor %}
                             </div>
                         </td>
-                        <td> <a href="/projects/pro/{{ experiment.id }}">{{ experiment.experiment_num }} </a> </td>
+
                         <td>{{ experiment.pro_type }}</td>
                         <td>{{ experiment.sam_type }}</td>
                         <td>{{ experiment.cost_type|default_if_none:"--" }}</td>
@@ -185,9 +187,12 @@ $(document).ready( function() {
                 text:'Export',
             },
           ],
+          "scrollY":"283px",
+          //当显示更少的记录时，是否允许表格减少高度
+          "scrollCollapse": true,
           "scrollX": true,
           fixedColumns:{
-            leftColumns:1
+            leftColumns:3
           },
 
         //定义某几列不参与排序
@@ -195,9 +200,9 @@ $(document).ready( function() {
             {"orderable":false, "targets":[1,2,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22,23]},
             {"width":"40px", "targets":0 },
             {"width":"70px", "targets":1 },
-            {"width":"100px", "targets":2 },
-            {"width":"70px", "targets":3 },
-            {"width":"60px", "targets":4 },
+            {"width":"60px", "targets":2 },
+            {"width":"100px", "targets":3 },
+            {"width":"70px", "targets":4 },
             {"width":"60px", "targets":5 },
             {"width":"95px", "targets":6 },
             {"width":"45px", "targets":7 },
@@ -220,7 +225,7 @@ $(document).ready( function() {
             {"width":"60px", "targets":24 },
 
             {
-            "targets": [4,6,9],
+            "targets": [4,6,9,15],
             //"data": 'pro_type',
             "render": function ( data, type, full, meta ) {
                 return data.length > 4 ?'<span title="'+data+'">'+data+'</span>':data;

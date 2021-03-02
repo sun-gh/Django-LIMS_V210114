@@ -75,8 +75,8 @@
 
         <!--作废或冲红：-->
         <div class="form-group">
-            {{ invoice_form.void_red.label_tag  }}
-            <div class="col-md-6" >{{ invoice_form.void_red  }}</div>
+            <label for="red" >作废或冲红：</label>
+            <div class="col-md-6" ><span id="red" class="form-control">{{ record_red  }}</span></div>
         </div>
 
         <!--回款日期：-->
