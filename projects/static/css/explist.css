@@ -6,29 +6,9 @@ th,td {
 
 }
 /* 表头居中 */
-.table>thead:first-child>tr:first-child>th {
-    text-align:center;
-    }
-/* .table>tbody>tr>td {text-align:center;} */
 
 
-/*.order_num {
-    background-color:gray;
-    width:3%;
-}
-.basic_info {
-    background-color:pink;
-}
-.prep_info {
-    background-color:#81C784;
-}
-.test_info {
-    background-color:#B39DDB;
-}
-.data_info {
-    background-color:#81D4FA;
 
-}*/
 
 
 

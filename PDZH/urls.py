@@ -28,6 +28,7 @@ urlpatterns = [
     path('user/', include('users.urls')),
     path('projects/', include('projects.urls')),
     path('captcha/', include('captcha.urls')),  # 增加验证码路由
+    path('notifications/', include('notifications.urls', namespace='notifications')),  # 增加消息库链接
     url('media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT}),
 
     ]

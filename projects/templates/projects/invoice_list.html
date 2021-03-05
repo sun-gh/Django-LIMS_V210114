@@ -24,7 +24,7 @@
 
   <div class="box-body" >
 
-      <table id="mytab" class="table table-bordered table-condensed table-striped">
+      <table id="mytab" style="table-layout:fixed" class="table table-bordered table-condensed table-striped">
           <thead>
               <tr>
                   <th  class="order_num" >序号</th>
@@ -53,7 +53,7 @@
                         <td>{{ invoice.unit_invoice }}</td>
                         <td>{{ invoice.date_invoice }}</td>
                         <td>{{ invoice.person_apply }}</td>
-                        <td>{{ invoice.cost_invoice }}</td>
+                        <td>{{ invoice.cost_invoice|default_if_none:"--" }}</td>
                         <td>{{ invoice.date_post|default_if_none:"--" }}</td>
                         <td >{{ invoice.num_express|default_if_none:"--" }}</td>
                         <td>{{ invoice.date_callback|default_if_none:"--" }}</td>
@@ -117,7 +117,7 @@ $(document).ready( function() {
                 text:'Export',
             }
           ],
-          "scrollY":"283px",
+          "scrollY":"600px",
           //当显示更少的记录时，是否允许表格减少高度
           "scrollCollapse": true,
 

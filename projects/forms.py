@@ -24,6 +24,10 @@ class AddExp(forms.ModelForm):
                   'unit',
                   'name',
                   'addition_cost',
+                  'res_person',
+                  'second_person',
+                  'third_person',
+                  'fourth_person',
                   'date_preperation',
                   'res_person',
                   'supply_info',
@@ -98,7 +102,7 @@ class ApplyInvoiceForm(forms.ModelForm):
 
 class UnitForm(forms.ModelForm):
     # 定义客户单位表单
-    unit_name = forms.CharField(label="状态", widget=forms.TextInput(attrs={'placeholder': '请输入单位全称！'}),)
+    unit_name = forms.CharField(label="单位名称", widget=forms.TextInput(attrs={'placeholder': '请输入单位全称！'}),)
     # c_time = forms.DateField(label="申请日期", widget=forms.DateInput(attrs={'type': 'date'}),)
 
     class Meta:

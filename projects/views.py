@@ -5,7 +5,6 @@ from .models import ExperimentList,  InvoicePayment, ApplyInvoice, ProjectType, 
 from .forms import AddExp, AddInvoice, ApplyInvoiceForm, UnitForm
 from datetime import date, datetime
 import csv
-import codecs
 import json
 from django.http import HttpResponse, JsonResponse
 import os
@@ -88,8 +87,11 @@ def add_exp(request):
             exp_list.unit = addexp_form.cleaned_data.get('unit')
             exp_list.name = addexp_form.cleaned_data.get('name')
             # exp_list.addition_cost = addexp_form.cleaned_data.get('addition_cost')
-            exp_list.date_preperation = addexp_form.cleaned_data.get('date_preperation')
             exp_list.res_person = addexp_form.cleaned_data.get('res_person')
+            exp_list.second_person = addexp_form.cleaned_data.get('second_person')
+            exp_list.third_person = addexp_form.cleaned_data.get('third_person')
+            exp_list.fourth_person = addexp_form.cleaned_data.get('fourth_person')
+            exp_list.date_preperation = addexp_form.cleaned_data.get('date_preperation')
             exp_list.supply_info = addexp_form.cleaned_data.get('supply_info')
             exp_list.instrument = addexp_form.cleaned_data.get('instrument')
             exp_list.date_test = addexp_form.cleaned_data.get('date_test')
@@ -149,34 +151,9 @@ def pro_detail(request, pro_id):
 
         return render(request, 'projects/pro_detail.html', {'pro_form': pro_form, 'project_detail': project_detail})
     elif request.method == 'POST':
-        # pro_form = AddExp(request.POST, request.FILES or None)
-        # if pro_form.is_valid():
-        #    exp_detail = ExperimentList.objects.get(id=pro_id)  # 此处pro_id不能加引号''
+
         save_pro = AddExp(request.POST, request.FILES, instance=project_detail)   # 将更新的数据保存到数据库
-        #    exp_detail.experiment_num = pro_form.cleaned_data.get('experiment_num')
-        #    exp_detail.pro_type = pro_form.cleaned_data.get('pro_type')
-        #    exp_detail.sam_type = pro_form.cleaned_data.get('sam_type')
-        #    exp_detail.cost_type = pro_form.cleaned_data.get('cost_type')
-        #    exp_detail.sample_num = pro_form.cleaned_data.get('sample_num')
-        #    exp_detail.name_terminal = pro_form.cleaned_data.get('name_terminal')
-        #    exp_detail.unit = pro_form.cleaned_data.get('unit')
-        #    exp_detail.name = pro_form.cleaned_data.get('name')
-        # exp_list.addition_cost = addexp_form.cleaned_data.get('addition_cost')
-        #    exp_detail.date_preperation = pro_form.cleaned_data.get('date_preperation')
-        #    exp_detail.res_person = pro_form.cleaned_data.get('res_person')
-        #    exp_detail.supply_info = pro_form.cleaned_data.get('supply_info')
-        #    exp_detail.instrument = pro_form.cleaned_data.get('instrument')
-        #    exp_detail.date_test = pro_form.cleaned_data.get('date_test')
-        #    exp_detail.date_searchlib = pro_form.cleaned_data.get('date_searchlib')
-        #    exp_detail.date_senddata = pro_form.cleaned_data.get('date_senddata')
-        #    exp_detail.pro_cost = pro_form.cleaned_data.get('pro_cost')
-        #    exp_detail.pro_manager = pro_form.cleaned_data.get('pro_manager')
-        #    exp_detail.pay_mode = pro_form.cleaned_data.get('pay_mode')
-        #   exp_detail.deadline_pro = pro_form.cleaned_data.get('deadline_pro')
         save_pro.save()  # 此处必须添加save方法，否则数据不会保存到数据库
-        # 多对多字段要单独保存
-        #    for cost in pro_form.cleaned_data.get('addition_cost'):
-        #        exp_detail.addition_cost.add(cost)
 
         # 对另外添加的文件单独处理
         file_list = request.FILES.getlist('file')  # 获取上传的多个文件的列表
@@ -439,9 +416,6 @@ def test(request):
         unit.save()
 
     return render(request, 'projects/test.html')
-
-
-from django.forms.models import model_to_dict
 
 
 def get(request):

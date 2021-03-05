@@ -1,4 +1,7 @@
 {% load static %}
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -11,7 +14,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <title>{% block title %} base {% endblock %}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
+  <!-- jQuery 3 -->
+  <script src="{% static 'adminlte-2.4.10/bower_components/jquery/dist/jquery.min.js' %}"></script>
   <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/font-awesome/css/font-awesome.min.css' %}">
@@ -25,10 +29,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{% static 'adminlte-2.4.10/dist/css/skins/skin-blue.min.css' %}">
   <!--ico图标-->
   <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}" type="image/x-icon" />
-  <!-- jQuery 3 -->
-  <script src="{% static 'adminlte-2.4.10/bower_components/jquery/dist/jquery.min.js' %}"></script>
 
-    {% block css %}{% endblock %}
+
+  {% block css %}{% endblock %}
 
 </head>
 <!--
@@ -79,7 +82,7 @@ desired effect
           <li >
             <a href="{% url 'projects:index' %}"  >
               <i class="fa fa-home"></i>
-              <!--<span class="label label-success">4</span>-->
+
             </a>
 
           </li>
@@ -89,61 +92,40 @@ desired effect
             <!-- Menu toggle button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
+              {% if unread_count %}
+                  <svg viewBox="0 0 8 8"
+                   width="8px"
+                   height="8px">
+                   <circle cx="4"
+                          cy="4"
+                          r="4"
+                          fill="#ff6b6b"
+                          ></circle>
+                  </svg>
+
+              {% endif %}
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
+              <li class="header">You have {{ unread_count }} notifications</li>
               <li>
                 <!-- Inner Menu: contains the notifications -->
                 <ul class="menu">
+                  {% for notification in request.user.notifications.all %}
                   <li><!-- start notification -->
                     <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      {{ notification }}             <!-- 展示每条消息-->
                     </a>
                   </li>
+                  {% empty %}
+                  <li>暂无消息</li>
+                  {% endfor %}
                   <!-- end notification -->
                 </ul>
               </li>
               <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>
-          <!-- Tasks Menu -->
-          <li class="dropdown tasks-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- Inner menu: contains the tasks -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <!-- Task title and progress text -->
-                      <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
-                      </h3>
-                      <!-- The progress bar -->
-                      <div class="progress xs">
-                        <!-- Change the css width attribute to simulate progress -->
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
-          </li>
+
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->

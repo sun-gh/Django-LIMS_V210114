@@ -3,6 +3,8 @@
 
 {% block title %} 项目详情页 {% endblock %}
 {% block css %}
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminlte-2.4.10/bower_components/select2/dist/css/select2.min.css' %}" />
     <link href="{% static 'css/pro_detail.css'  %}" rel="stylesheet" />
 {% endblock  %}
 {% block content %}
@@ -61,19 +63,35 @@
             {{ pro_form.addition_cost.label_tag }}
             <div class="col-md-6" id="addition_cost">{{ pro_form.addition_cost  }}</div>
         </div>
+
+        <!--操作人一：-->
+        <div class="form-group">
+            {{ pro_form.res_person.label_tag  }}
+            <div class="col-md-6" id="first_person">{{ pro_form.res_person  }}</div>
+        </div>
+        <!--操作人二：-->
+        <div class="form-group">
+            {{ pro_form.second_person.label_tag  }}
+            <div class="col-md-6" id="second_person">{{ pro_form.second_person  }}</div>
+        </div>
+        <!--操作人三：-->
+        <div class="form-group">
+            {{ pro_form.third_person.label_tag  }}
+            <div class="col-md-6" id="third_person">{{ pro_form.third_person  }}</div>
+        </div>
+        <!--操作人四：-->
+        <div class="form-group">
+            {{ pro_form.fourth_person.label_tag  }}
+            <div class="col-md-6" id="fourth_person">{{ pro_form.fourth_person  }}</div>
+        </div>
+        </div>
+
+        <div class="col-md-6" id="detail_right">
         <!--制备完成日期：-->
         <div class="form-group">
             {{ pro_form.date_preperation.label_tag }}
             <div class="col-md-6" id="date_preperation">{{ pro_form.date_preperation  }}</div>
         </div>
-        <!--负责人：-->
-        <div class="form-group">
-            {{ pro_form.res_person.label_tag  }}
-            <div class="col-md-6" id="res_person">{{ pro_form.res_person  }}</div>
-        </div>
-        </div>
-
-        <div class="col-md-6" id="detail_right">
         <!--实验偏差：-->
         <div class="form-group">
             {{ pro_form.supply_info.label_tag  }}
@@ -154,6 +172,8 @@
 {% endblock content %}
 
 {% block script %}
+    <!-- Select2 -->
+    <script src="{% static 'adminlte-2.4.10/bower_components/select2/dist/js/select2.full.min.js' %}"></script>
     <script type="text/javascript">
         function del(){
             var msg="确定要删除吗？";
@@ -174,6 +194,12 @@
         $("#id_file").removeAttr("class");
 
         $("div.col-md-6 select").addClass("form-control");
+
+        // 给select添加样式,<!-- Select2 -->
+        $("#id_unit").addClass("form-control select2");
+        $("#id_unit").attr("style","width:100%;");
+        //Initialize Select2 Elements
+        $('.select2').select2();
 
         {#使用ajax方式#}
         $(document).ready(function() {
@@ -215,7 +241,6 @@
                     $.post(
                         "/projects/ajax/",
                         {
-
                         "type":"post",
                         "pro_id": {{ project_detail.id }},
                         "file_id": file_id
@@ -242,8 +267,8 @@
                     );
 
 
-                } );  // click )
-            });  // each(
-        });  // ready )
+                } );  // click
+            });  // each
+        });  // ready
     </script>
 {% endblock %}

@@ -65,20 +65,36 @@
             {{ addexp_form.addition_cost.label_tag  }}
             <div class="col-md-6" id="addition_cost">{{ addexp_form.addition_cost  }}</div>
           </div>
+
+          <!--操作人一：-->
+          <div class="form-group">
+            {{ addexp_form.res_person.label_tag  }}
+            <div class="col-md-6" id="first_person">{{ addexp_form.res_person  }}</div>
+          </div>
+          <!--操作人二：-->
+          <div class="form-group">
+            {{ addexp_form.second_person.label_tag  }}
+            <div class="col-md-6" id="second_person">{{ addexp_form.second_person  }}</div>
+          </div>
+          <!--操作人三：-->
+          <div class="form-group">
+            {{ addexp_form.third_person.label_tag  }}
+            <div class="col-md-6" id="third_person">{{ addexp_form.third_person  }}</div>
+          </div>
+          <!--操作人四：-->
+          <div class="form-group">
+            {{ addexp_form.fourth_person.label_tag  }}
+            <div class="col-md-6" id="fourth_person">{{ addexp_form.fourth_person  }}</div>
+          </div>
+          </div>  <!-- /exp_left -->
+
+          <div class="col-md-6 " id="exp_right">
           <!--制备完成日期：-->
           <div class="form-group">
             {{ addexp_form.date_preperation.label_tag  }}
 
             <div class="col-md-6" id="date_preperation">{{ addexp_form.date_preperation  }}</div>
           </div>
-          <!--负责人：-->
-          <div class="form-group">
-            {{ addexp_form.res_person.label_tag  }}
-            <div class="col-md-6" id="res_person">{{ addexp_form.res_person  }}</div>
-          </div>
-          </div>  <!-- /exp_left -->
-
-          <div class="col-md-6 " id="exp_right">
           <!--实验偏差：-->
           <div class="form-group">
             {{ addexp_form.supply_info.label_tag  }}
