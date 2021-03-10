@@ -43,16 +43,18 @@ def explist(request):
     for i, pro in enumerate(experiment_list):
         deadline_date = pro.deadline_pro
         delta = datetime.strptime(deadline_date, '%Y-%m-%d') - datetime.strptime(date_now, '%Y-%m-%d')
-        time_percent = '{:.0%}'.format(delta.days/pro.pro_type.pro_period)
+        # time_percent = '{:.0%}'.format(delta.days/pro.pro_type.pro_period)
+        time_percent = delta.days*100//pro.pro_type.pro_period
         percent_dict[i] = time_percent
         d_value = pro.pro_type.pro_period - pro.pro_type.pre_period
-        pre_percent = '{:.0%}'.format((delta.days - d_value)/pro.pro_type.pre_period)
+        # pre_percent = '{:.0%}'.format((delta.days - d_value)/pro.pro_type.pre_period)
+        pre_percent = (delta.days - d_value)*100 // pro.pro_type.pre_period
         pre_dict[i] = pre_percent
         if pro.id in pros_list:
             record_inv[i] = '有'
         else:
             record_inv[i] = '无'
-    # print(record_inv)
+    # print(percent_dict)
 
     return render(request, 'projects/exp_list.html', {'exp_list': experiment_list, 'per_dict': percent_dict,
                                                       'pre_dict': pre_dict, 'rec_inv': record_inv})
