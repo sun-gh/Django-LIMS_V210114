@@ -170,10 +170,10 @@ class ExperimentList(models.Model):
     name = models.CharField(max_length=32, verbose_name="送样人")
     # addition_cost中是否为Foreignkey，还有待商榷
     addition_cost = models.ManyToManyField(AdditionalCost, verbose_name="附加收费", blank=True)  # 新修改
-    res_person = models.ForeignKey(ResPerson, verbose_name="操作人一", on_delete=models.CASCADE, blank=True, null=True)
-    second_person = models.ForeignKey(ResPerson, verbose_name="操作人二", related_name='pro_second_person', on_delete=models.CASCADE, blank=True, null=True)
-    third_person = models.ForeignKey(ResPerson, verbose_name="操作人三", related_name='pro_third_person', on_delete=models.CASCADE, blank=True, null=True)
-    fourth_person = models.ForeignKey(ResPerson, verbose_name="操作人四", related_name='pro_fourth_person', on_delete=models.CASCADE, blank=True, null=True)
+    res_person = models.ForeignKey(ResPerson, verbose_name="步骤一", on_delete=models.CASCADE, blank=True, null=True)
+    second_person = models.ForeignKey(ResPerson, verbose_name="步骤二", related_name='pro_second_person', on_delete=models.CASCADE, blank=True, null=True)
+    third_person = models.ForeignKey(ResPerson, verbose_name="步骤三", related_name='pro_third_person', on_delete=models.CASCADE, blank=True, null=True)
+    fourth_person = models.ForeignKey(ResPerson, verbose_name="步骤四", related_name='pro_fourth_person', on_delete=models.CASCADE, blank=True, null=True)
 
     date_preperation = models.CharField(max_length=32, verbose_name="制备完成", blank=True, null=True)
     supply_info = models.ForeignKey(SupinformationExp, verbose_name="实验偏差", on_delete=models.CASCADE, blank=True,
