@@ -44,12 +44,23 @@ def explist(request):
         deadline_date = pro.deadline_pro
         delta = datetime.strptime(deadline_date, '%Y-%m-%d') - datetime.strptime(date_now, '%Y-%m-%d')
         # time_percent = '{:.0%}'.format(delta.days/pro.pro_type.pro_period)
-        time_percent = delta.days*100//pro.pro_type.pro_period
+        real_period = datetime.strptime(deadline_date, '%Y-%m-%d') - datetime.strptime(pro.c_time.strftime('%Y-%m-%d'),
+                                                                                       '%Y-%m-%d')
+        time_percent = delta.days*100//real_period.days
         percent_dict[i] = time_percent
-        d_value = pro.pro_type.pro_period - pro.pro_type.pre_period
-        # pre_percent = '{:.0%}'.format((delta.days - d_value)/pro.pro_type.pre_period)
-        pre_percent = (delta.days - d_value)*100 // pro.pro_type.pre_period
-        pre_dict[i] = pre_percent
+
+        # 计算前处理剩余周期
+        pre_in_pro = round(pro.pro_type.pre_period / pro.pro_type.pro_period, 2)  # 前处理周期占比
+        real_pre_period = int(real_period.days * pre_in_pro)   # 实际前处理周期
+        passed_time = datetime.strptime(date_now, '%Y-%m-%d') - datetime.strptime(pro.c_time.strftime('%Y-%m-%d'),
+                                                                                  '%Y-%m-%d')
+        if real_pre_period == 0:
+            pre_dict[i] = 0
+        else:
+            pre_percent = int((1 - passed_time.days / real_pre_period)*100)
+            pre_dict[i] = pre_percent
+
+        # 计算是否有开票
         if pro.id in pros_list:
             record_inv[i] = '有'
         else:
@@ -103,6 +114,7 @@ def add_exp(request):
             exp_list.pro_manager = addexp_form.cleaned_data.get('pro_manager')
             exp_list.pay_mode = addexp_form.cleaned_data.get('pay_mode')
             exp_list.deadline_pro = addexp_form.cleaned_data.get('deadline_pro')
+            exp_list.urgent_warn = addexp_form.cleaned_data.get('urgent_warn')
             # exp_list.file = request.FILES.getlist('file')
             exp_list.save()
             # 多对多字段要单独保存

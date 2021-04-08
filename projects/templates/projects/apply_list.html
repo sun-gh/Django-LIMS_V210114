@@ -138,13 +138,13 @@
 <script>
 $(document).ready( function() {
         $('#mytab').DataTable({
-          "paging": false,
+          "paging": true,
           "lengthChange": true,
           "searching": true,
           "info": true,
           "ordering":true,
           "autoWidth":false,
-          "lengthMenu":[[5,10,25,50,-1],[5,10,25,50,"all"]],
+          "lengthMenu":[[10,25,50,-1],[10,25,50,"all"]],
 
           dom:'lBfrtip',
           "buttons": [

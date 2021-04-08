@@ -156,6 +156,18 @@ class FilesRelated(models.Model):
         verbose_name_plural = verbose_name
 
 
+class UrgentWarn(models.Model):
+    # 定义加急情况
+    warn_type = models.CharField(max_length=128, verbose_name="优先级", unique=True)
+
+    class Meta:
+        verbose_name = "优先级"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.warn_type
+
+
 class ExperimentList(models.Model):
     # 定义项目列表
 
@@ -186,6 +198,7 @@ class ExperimentList(models.Model):
     pro_manager = models.ForeignKey(ProManager, verbose_name="项目经理", on_delete=models.CASCADE, blank=True, null=True)
     pay_mode = models.ForeignKey(PayType, verbose_name="结算方式", on_delete=models.CASCADE, blank=True, null=True)
     deadline_pro = models.CharField(max_length=64, verbose_name="项目截止日期", blank=True, null=True)
+    urgent_warn = models.ForeignKey(UrgentWarn, verbose_name="优先级", on_delete=models.CASCADE, blank=True, null=True)
     files = models.ManyToManyField(FilesRelated, verbose_name="相关文件", blank=True)
     c_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 

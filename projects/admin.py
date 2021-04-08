@@ -24,5 +24,6 @@ admin.site.register(models.ReimburseMaterial)
 admin.site.register(models.TypeApply)
 admin.site.register(models.ApplyInvoice)
 admin.site.register(models.FilesRelated)
+admin.site.register(models.UrgentWarn)
 
 

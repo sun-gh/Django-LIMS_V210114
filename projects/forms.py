@@ -39,6 +39,7 @@ class AddExp(forms.ModelForm):
                   'pro_manager',
                   'pay_mode',
                   'deadline_pro',
+                  'urgent_warn',
                   'files',
                   ]
 
