@@ -100,7 +100,9 @@
 
 <script>
 $(document).ready( function() {
-        $('#mytab').DataTable({
+
+    var inv_list = $('#mytab').DataTable({
+          bStateSave: true,
           "paging": true,
           "lengthChange": true,
           "searching": true,
@@ -121,9 +123,6 @@ $(document).ready( function() {
           //当显示更少的记录时，是否允许表格减少高度
           "scrollCollapse": true,
 
-          fixedColumns:{
-            leftColumns:3
-          },
         //定义某几列不参与排序
         "columnDefs":[
             {"orderable":false, "targets":[1,2,5,6,7,8,11]},
@@ -153,6 +152,14 @@ $(document).ready( function() {
 
         });
         //$('#mytab').wrapAll("<div style='overflow-x:auto;width:100%; '></div>");
+
+        new $.fn.dataTable.FixedColumns( inv_list, {
+            leftColumns: 3,
+
+            "drawCallback": function(){
+                $(".DTFC_Cloned").css("width","auto");
+            }
+        } );
 
       });
 
