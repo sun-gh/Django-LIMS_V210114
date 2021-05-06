@@ -104,6 +104,7 @@ def add_exp(request):
             exp_list.second_person = addexp_form.cleaned_data.get('second_person')
             exp_list.third_person = addexp_form.cleaned_data.get('third_person')
             exp_list.fourth_person = addexp_form.cleaned_data.get('fourth_person')
+            exp_list.date_pre_exp = addexp_form.cleaned_data.get('date_pre_exp')
             exp_list.date_preperation = addexp_form.cleaned_data.get('date_preperation')
             exp_list.supply_info = addexp_form.cleaned_data.get('supply_info')
             exp_list.instrument = addexp_form.cleaned_data.get('instrument')

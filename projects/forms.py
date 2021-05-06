@@ -5,7 +5,7 @@ from .models import ExperimentList, InvoicePayment, ApplyInvoice, UnitInvoice
 
 class AddExp(forms.ModelForm):
     # 定义添加项目表单
-
+    date_pre_exp = forms.DateField(label="质控报告发送", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     date_preperation = forms.DateField(label="制备完成", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     date_test = forms.DateField(label="上机日期", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     date_searchlib = forms.DateField(label="搜库日期", widget=forms.DateInput(attrs={'type': 'date'}), required=False)
@@ -28,6 +28,7 @@ class AddExp(forms.ModelForm):
                   'second_person',
                   'third_person',
                   'fourth_person',
+                  'date_pre_exp',
                   'date_preperation',
                   'res_person',
                   'supply_info',

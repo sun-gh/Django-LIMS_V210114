@@ -89,6 +89,12 @@
           </div>  <!-- /exp_left -->
 
           <div class="col-md-6 " id="exp_right">
+          <!--质控报告发送：-->
+          <div class="form-group">
+            {{ addexp_form.date_pre_exp.label_tag  }}
+
+            <div class="col-md-6" id="date_pre_exp">{{ addexp_form.date_pre_exp  }}</div>
+          </div>
           <!--制备完成日期：-->
           <div class="form-group">
             {{ addexp_form.date_preperation.label_tag  }}
@@ -304,12 +310,29 @@
             mydate.setDate(mydate.getDate()+dict['17']);
             dealdate(mydate);
             document.getElementsByName("deadline_pro")[0].value = datestr;
-            } else{
+            }else if(protype[0].selectedIndex == 18){
             var mydate = new Date();
             mydate.setDate(mydate.getDate()+dict['18']);
             dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+
+             }else if(protype[0].selectedIndex == 19){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['19']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            }else if(protype[0].selectedIndex == 20){
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['20']);
+            dealdate(mydate);
+            document.getElementsByName("deadline_pro")[0].value = datestr;
+            } else{
+            var mydate = new Date();
+            mydate.setDate(mydate.getDate()+dict['21']);
+            dealdate(mydate);
             document.getElementsByName("deadline_pro")[0].value = datestr;}
         }
+
 
     </script>
   {% endblock  %}

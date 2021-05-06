@@ -186,7 +186,7 @@ class ExperimentList(models.Model):
     second_person = models.ForeignKey(ResPerson, verbose_name="步骤二", related_name='pro_second_person', on_delete=models.CASCADE, blank=True, null=True)
     third_person = models.ForeignKey(ResPerson, verbose_name="步骤三", related_name='pro_third_person', on_delete=models.CASCADE, blank=True, null=True)
     fourth_person = models.ForeignKey(ResPerson, verbose_name="步骤四", related_name='pro_fourth_person', on_delete=models.CASCADE, blank=True, null=True)
-
+    date_pre_exp = models.CharField(max_length=64, verbose_name="质控报告发送", blank=True, null=True)
     date_preperation = models.CharField(max_length=32, verbose_name="制备完成", blank=True, null=True)
     supply_info = models.ForeignKey(SupinformationExp, verbose_name="实验偏差", on_delete=models.CASCADE, blank=True,
                                     null=True)
